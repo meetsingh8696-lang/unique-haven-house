@@ -1,0 +1,13 @@
+{
+  "name": "UNIQUE HAVEN HOUSE",
+  "short_name": "HAVEN HOUSE",
+  "start_url": "/unique-haven-house/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [{
+    "src": "https://cdn-icons-png.flaticon.com/512/1946/1946488.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}
