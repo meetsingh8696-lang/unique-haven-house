@@ -1,167 +1,220 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIQUE HAVEN HOUSE FULL 62KB UNIFIED</title><script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><style>
-*{{box-sizing:border-box}} body{{background:#f5f2eb;color:#000;font-family:Arial;margin:0;padding:0 0 100px}}
-.top{{background:#f5f2eb;padding:14px 12px 8px;text-align:center;border-bottom:4px solid #000}}
-.logoBox{{width:120px;height:120px;margin:0 auto;background:#f5f2eb;border-radius:16px;border:3px solid #000;overflow:hidden}}
-.title{{font-weight:900;font-size:20px;margin:8px 0 0}}.sub{{font-size:13px}}
-.cloud{{background:#000;color:#00ff88;border:2px solid #00c851;padding:8px;border-radius:20px;margin:10px 12px;text-align:center;font-weight:bold}}
-.main{{padding:12px;background:#f5f2eb}}
-.cardLogo{{background:#f5f2eb;border:3px solid #000;border-radius:16px;padding:12px;margin:8px 0;text-align:center}}
-.cardLogo svg{{width:100%;max-width:340px;height:auto}}
-.btn{{background:#d4a94b;color:#000;border:3px solid #000;padding:16px;border-radius:24px;font-weight:900;margin:8px 0;width:100%;font-size:18px;cursor:pointer;display:block}}
-.btn2{{background:#fff;color:#000;border:2px solid #000;padding:12px;border-radius:16px;margin:6px 0;width:100%;font-weight:bold;cursor:pointer;display:block;text-align:center}}
-.btn-green{{background:#00c851;color:#fff;border:2px solid #000;padding:12px;border-radius:16px;margin:6px 0;width:100%;font-weight:bold;cursor:pointer;display:block}}
-.card{{background:#fff;border:2px solid #000;padding:12px;border-radius:14px;margin:10px 0}}
-input,select,textarea{{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:2px solid #000;background:#fff;color:#000}}
-.folder{{background:#fff;border:2px solid #000;padding:10px;border-radius:12px;margin:8px 0}}
-.badge{{padding:4px 10px;border-radius:12px;font-size:12px;font-weight:bold;color:#fff}}.paid{{background:green}}.unpaid{{background:#c00}}
-#tabs{{display:flex;gap:6px;overflow:auto;flex-wrap:wrap;padding:6px 0;background:#f5f2eb}}
-#globalAlert,#cp12Alert{{position:sticky;top:0;z-index:100;padding:10px;text-align:center;font-weight:bold;border-radius:10px;margin:6px;display:none}}
-.flashRed{{background:red;color:#fff;border:3px solid #000;animation:fl 0.8s infinite}} @keyframes fl{{0%{{opacity:1}}50%{{opacity:0.5}}100%{{opacity:1}}}}
-.editAmt{{width:70px!important;display:inline-block!important;margin:2px!important;padding:6px!important}}
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIQUE HAVEN HOUSE</title>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<style>
+body{background:#f5f2eb;color:#000;font-family:Arial;margin:0;padding:0 0 100px}
+.top{background:#f5f2eb;padding:16px;text-align:center;border-bottom:4px solid #000;position:sticky;top:0;z-index:50}
+.logoBox{width:140px;height:130px;margin:0 auto}
+.logoBox svg{width:100%;height:100%}
+.title{font-weight:900;font-size:22px;margin:6px 0 0}
+.sub{font-size:12px;letter-spacing:2px}
+.cloud{background:#000;color:#0f0;padding:8px;border-radius:20px;margin:10px;font-weight:bold;text-align:center}
+.main{padding:12px;background:#f5f2eb}
+.btn{background:#d4a94b;color:#000;border:3px solid #000;padding:16px;border-radius:24px;font-weight:900;margin:8px 0;width:100%;font-size:18px;cursor:pointer;display:block}
+.btn2{background:#fff;color:#000;border:2px solid #000;padding:12px;border-radius:14px;margin:6px 0;width:100%;font-weight:bold;cursor:pointer;display:block}
+.card{background:#fff;border:2px solid #000;padding:12px;border-radius:12px;margin:8px 0}
+input,select,textarea{width:100%;padding:11px;margin:5px 0;border:2px solid #000;border-radius:10px;background:#fff;color:#000}
+#tabs{display:flex;gap:6px;overflow:auto;flex-wrap:wrap;padding:8px 0}
+#globalAlert,#cp12Alert{padding:10px;text-align:center;font-weight:bold;border-radius:10px;margin:6px;display:none}
+.flashRed{background:red;color:#fff;border:3px solid #000}
 </style></head><body>
 <div id="globalAlert"></div><div id="cp12Alert" class="flashRed"></div>
-<div class="top"><div class="logoBox"><svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="280" fill="#f5f2eb"/><g stroke="black" stroke-width="12" stroke-linecap="butt"><line x1="35" y1="85" x2="175" y2="18"/><line x1="18" y1="128" x2="185" y2="52"/><line x1="225" y1="18" x2="365" y2="85"/><line x1="215" y1="52" x2="382" y2="128"/><line x1="42" y1="160" x2="42" y2="235"/><line x1="358" y1="160" x2="358" y2="235"/></g><rect x="165" y="85" width="70" height="70" fill="black"/><rect x="177" y="97" width="18" height="18" fill="white"/><rect x="205" y="97" width="18" height="18" fill="white"/><rect x="177" y="125" width="18" height="18" fill="white"/><rect x="205" y="125" width="18" height="18" fill="white"/><text x="200" y="185" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text><text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="12" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text><g fill="black"><circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/><circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/><circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/></g></svg></div><div class="title">UNIQUE HAVEN HOUSE</div><div class="sub">We Build UR Dream</div></div>
+
+<!-- ONE LOGO ONLY FOR WHOLE APP -->
+<div class="top">
+<div class="logoBox">
+<svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="280" fill="#f5f2eb"/>
+<g stroke="black" stroke-width="12" stroke-linecap="butt">
+<line x1="35" y1="85" x2="175" y2="18"/>
+<line x1="18" y1="128" x2="185" y2="52"/>
+<line x1="225" y1="18" x2="365" y2="85"/>
+<line x1="215" y1="52" x2="382" y2="128"/>
+<line x1="42" y1="160" x2="42" y2="235"/>
+<line x1="358" y1="160" x2="358" y2="235"/>
+</g>
+<rect x="165" y="85" width="70" height="70" fill="black"/>
+<rect x="177" y="97" width="18" height="18" fill="white"/>
+<rect x="205" y="97" width="18" height="18" fill="white"/>
+<rect x="177" y="125" width="18" height="18" fill="white"/>
+<rect x="205" y="125" width="18" height="18" fill="white"/>
+<text x="200" y="185" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text>
+<text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="11" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text>
+<g fill="black">
+<circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/>
+<circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/>
+<circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/>
+</g>
+</svg>
+</div>
+<div class="title">UNIQUE HAVEN HOUSE</div>
+<div class="sub">WE BUILD UR DREAM</div>
+</div>
+
 <div class="cloud" id="cloudStatus">☁️ Cloud SYNC ON ✅ Live ALL</div>
+
 <div id="outside" class="main">
-<div class="cardLogo"><svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="280" fill="#f5f2eb"/><g stroke="black" stroke-width="12" stroke-linecap="butt"><line x1="35" y1="85" x2="175" y2="18"/><line x1="18" y1="128" x2="185" y2="52"/><line x1="225" y1="18" x2="365" y2="85"/><line x1="215" y1="52" x2="382" y2="128"/><line x1="42" y1="160" x2="42" y2="235"/><line x1="358" y1="160" x2="358" y2="235"/></g><rect x="165" y="85" width="70" height="70" fill="black"/><rect x="177" y="97" width="18" height="18" fill="white"/><rect x="205" y="97" width="18" height="18" fill="white"/><rect x="177" y="125" width="18" height="18" fill="white"/><rect x="205" y="125" width="18" height="18" fill="white"/><text x="200" y="185" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text><text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="12" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text><g fill="black"><circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/><circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/><circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/></g></svg>
-<h3 style="margin:10px 0 6px;">SELECT ACCESS</h3>
+<div class="card"><h3 style="text-align:center">SELECT ACCESS</h3>
 <button class="btn" onclick="goAdmin()">ADMIN</button>
 <button class="btn" onclick="goWorker()">WORKER</button>
 <button class="btn" onclick="goTransport()">TRANSPORT</button>
 </div>
-<div class="card"><h3>🔍 SEARCH JOB - PUBLIC</h3><input id="outsideSearchInput" placeholder="Chassis..." oninput="outsideSearch()"><button class="btn2" onclick="outsideSearch()">SEARCH BY CHASSIS</button></div>
-<button class="btn2" onclick="openPublicActive()">👀 ACTIVE JOBS</button><button class="btn2" onclick="openPublicTransport()">🚚 TRANSPORT JOBS</button><button class="btn2" onclick="openPublicRefurb()">🏠 REFURB HOMES</button><button class="btn2" onclick="openPublicInvoice()">📄 PUBLIC INVOICE (Pass)</button><button class="btn2" onclick="openPublicChat()">💬 PUBLIC CHAT - CLOUD LIVE</button><button class="btn2" onclick="askNotify()">🔔 Enable Notifications</button><button class="btn2" onclick="openAbout()">ℹ️ ABOUT US</button>
+<div class="card"><input id="outsideSearchInput" placeholder="Search chassis..."><button class="btn2" onclick="outsideSearch()">SEARCH</button></div>
+<button class="btn2" onclick="openPublicActive()">👀 ACTIVE JOBS</button>
+<button class="btn2" onclick="openPublicTransport()">🚚 TRANSPORT JOBS</button>
+<button class="btn2" onclick="openPublicRefurb()">🏠 REFURB HOMES</button>
+<button class="btn2" onclick="openPublicInvoice()">📄 PUBLIC INVOICE</button>
+<button class="btn2" onclick="openPublicChat()">💬 PUBLIC CHAT</button>
+<button class="btn2" onclick="openAbout()">ℹ️ ABOUT US</button>
 <div id="publicViewArea"></div>
 </div>
-<div id="app" style="display:none" class="main"><div id="tabs"></div><div id="content"></div><button class="btn2" onclick="backHome()" style="margin-top:20px">⬅️ Back to Home</button></div>
-<div id="pageAbout" style="display:none" class="main"><div class="card"><h3>About Us</h3><div id="aboutView"></div><button class="btn2" onclick="backHome()">Back</button></div></div>
-<div id="pagePublicInvoice" style="display:none" class="main"><div class="card"><h3>📄 PUBLIC INVOICE - OCR FIXED</h3><label>Select Folder</label><select id="pubInvFolderSelect"></select><input id="pubInvChassis" placeholder="Chassis *"><input id="pubInvCompany" placeholder="Company *"><input id="pubInvPerson" placeholder="Your Name *"><input id="pubInvAmt" type="number" placeholder="Total £ *"><input id="pubInvDesc" placeholder="Title *"><div style="display:flex;gap:6px"><div style="flex:1"><label>📷 Camera MULTI</label><input type="file" id="pubInvCam" accept="image/*" multiple></div><div style="flex:1"><label>🖼️ Library MULTI</label><input type="file" id="pubInvLib" accept="image/*" multiple></div></div><div id="pubInvPrevBox" style="display:flex;flex-wrap:wrap;gap:4px"></div><div id="pubOcrStatus" style="background:#000;color:#00ff88;padding:8px;border-radius:8px;margin-top:6px">Ready OCR</div><div id="pubOcrBreakdown" style="background:#fff;border:2px solid #000;padding:8px;border-radius:8px;margin-top:6px"></div><button class="btn" onclick="submitPublicInvoice()">+ SUBMIT → Admin CLOUD</button><hr><div class="card" style="border:3px solid #00c851"><h3>👁️ MY INVOICES</h3><input id="myInvNameSearch" placeholder="Your Name"><button class="btn-green" onclick="showMyPublicInvoices()">Show My Invoices</button><div id="myInvListArea"></div></div><button class="btn2" onclick="backHome()">Back</button></div></div>
+
+<div id="app" style="display:none" class="main">
+<div id="tabs"></div>
+<div id="content"></div>
+<button class="btn2" onclick="backHome()">⬅️ Back to Home</button>
+</div>
+
+<div id="pageAbout" style="display:none" class="main"><div class="card"><div id="aboutView">UNIQUE HAVEN HOUSE</div><button class="btn2" onclick="backHome()">Back</button></div></div>
+
+<div id="pagePublicInvoice" style="display:none" class="main"><div class="card">
+<h3>📄 PUBLIC INVOICE - OCR</h3>
+<select id="pubInvFolderSelect"></select>
+<input id="pubInvChassis" placeholder="Chassis *">
+<input id="pubInvCompany" placeholder="Company *">
+<input id="pubInvPerson" placeholder="Your Name *">
+<input id="pubInvAmt" type="number" placeholder="Total £ *">
+<input id="pubInvDesc" placeholder="Title *">
+<input type="file" id="pubInvCam" accept="image/*" multiple>
+<input type="file" id="pubInvLib" accept="image/*" multiple>
+<div id="pubInvPrevBox" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+<div id="pubOcrStatus" style="background:#000;color:#0f0;padding:6px;border-radius:8px;margin-top:6px">Ready</div>
+<div id="pubOcrBreakdown" style="background:#fff;border:2px solid #000;padding:6px;border-radius:8px;margin-top:6px"></div>
+<button class="btn" onclick="submitPublicInvoice()">+ SUBMIT CLOUD</button>
+<hr>
+<input id="myInvNameSearch" placeholder="Your Name"><button class="btn2" onclick="showMyPublicInvoices()">Show My Invoices</button><div id="myInvListArea"></div>
+<button class="btn2" onclick="backHome()">Back</button>
+</div></div>
+
 <script>
 const firebaseConfig={apiKey:"AIzaSyC8pET9aGyiCLEQB0SlAyW0uxeeD_bN5Zc",authDomain:"unique-haven-house.firebaseapp.com",projectId:"unique-haven-house",storageBucket:"unique-haven-house.firebasestorage.app",messagingSenderId:"863147801991",appId:"1:863147801991:web:71dad5c6b88bc0367ae722"};
 firebase.initializeApp(firebaseConfig);const db=firebase.firestore();
-function cloudAdd(c,d){d.createdAt=firebase.firestore.FieldValue.serverTimestamp();d.timeStamp=firebase.firestore.FieldValue.serverTimestamp();db.collection(c).add(d).catch(e=>{});}
-function cloudDeleteById(c,id){if(!id)return;db.collection(c).doc(id).delete().catch(e=>{});}
-function cloudUpdateById(c,id,data){if(!id)return;db.collection(c).doc(id).update(data).catch(e=>{});}
-db.collection('complaints').orderBy('createdAt','desc').onSnapshot(s=>{let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});complaints=a;localStorage.setItem('uh_comp',JSON.stringify(a));if(curTab)renderContent();checkFlashes();});
-db.collection('transJobs').orderBy('createdAt','desc').onSnapshot(s=>{let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});transJobs=a;localStorage.setItem('uh_tjobs',JSON.stringify(a));if(curTab)renderContent();});
-db.collection('chatMsgs').orderBy('timeStamp','desc').limit(200).onSnapshot(s=>{let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});chatMsgs=a.reverse();localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();});
-db.collection('cp12List').onSnapshot(s=>{let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});cp12List=a;localStorage.setItem('uh_cp12',JSON.stringify(a));checkFlashes();});
-db.collection('invoices_cloud').onSnapshot(s=>{let obj={};s.forEach(d=>{let inv=d.data();inv._fid=d.id;let ch=inv.chassis;if(!obj[ch])obj[ch]=[];obj[ch].push(inv);});invoices=obj;localStorage.setItem('uh_inv',JSON.stringify(obj));});
+function cloudAdd(c,d){d.createdAt=firebase.firestore.FieldValue.serverTimestamp();d.timeStamp=firebase.firestore.FieldValue.serverTimestamp();db.collection(c).add(d).catch(()=>{});}
+function cloudDeleteById(c,id){if(!id)return;db.collection(c).doc(id).delete().catch(()=>{});}
+function cloudUpdateById(c,id,data){if(!id)return;db.collection(c).doc(id).update(data).catch(()=>{});}
 </script>
 <script>
-var role='';var pw={admin:'admin123',worker:'worker123',transport:'trans123',invoice:'invoice123'};try{var st=localStorage.getItem('uh_pw');if(st)pw=JSON.parse(st);}catch(e){}
-var complaints=[],transJobs=[],invoices={},workers={},reports=[],refurbs=[],completeJobs=[],cp12List=[],companyHomes={},customCompanyTabs=[],chatMsgs=[],aboutData={text:'UNIQUE HAVEN HOUSE - We Build UR Dream'};
-try{complaints=JSON.parse(localStorage.getItem('uh_comp')||'[]');transJobs=JSON.parse(localStorage.getItem('uh_tjobs')||'[]');invoices=JSON.parse(localStorage.getItem('uh_inv')||'{}');workers=JSON.parse(localStorage.getItem('uh_workers')||'{}');reports=JSON.parse(localStorage.getItem('uh_reports')||'[]');refurbs=JSON.parse(localStorage.getItem('uh_refurbs')||'[]');completeJobs=JSON.parse(localStorage.getItem('uh_complete')||'[]');cp12List=JSON.parse(localStorage.getItem('uh_cp12')||'[]');companyHomes=JSON.parse(localStorage.getItem('uh_companyHomes')||'{}');customCompanyTabs=JSON.parse(localStorage.getItem('uh_customTabs')||'[]');chatMsgs=JSON.parse(localStorage.getItem('uh_chat')||'[]');}catch(e){}
-var invPhotos=[],pubInvPhotos=[],ocrAmounts=[];
-function extractSmartTotal(text){if(!text)return 0;var lower=text.toLowerCase();var regex=/£?\s*(\d{1,4}\.\d{2})/g;var matches=[];var m;while((m=regex.exec(text))!==null){var v=parseFloat(m[1]);if(!isNaN(v)&&v>=0.5&&v<=2000)matches.push({v:v,idx:m.index});}if(matches.length===0)return 0;var totalIdx=lower.lastIndexOf('total');if(totalIdx!==-1){for(var i=0;i<matches.length;i++)if(matches[i].idx>=totalIdx)return matches[i].v;}return matches[matches.length-1].v;}
-function recalcTotal(){var s=0;for(var i=0;i<ocrAmounts.length;i++)s+=Number(ocrAmounts[i])||0;let el=document.getElementById('pubInvAmt');if(el)el.value=s.toFixed(2);}
-function updateAmt(i,v){ocrAmounts[i]=Number(v)||0;recalcTotal();}
+var role='';var pw={admin:'admin123',worker:'worker123',transport:'trans123',invoice:'invoice123'};
+try{var s=localStorage.getItem('uh_pw');if(s)pw=JSON.parse(s);}catch(e){}
+var complaints=[],transJobs=[],invoices={},workers={},reports=[],refurbs=[],completeJobs=[],cp12List=[],companyHomes={},customCompanyTabs=[],chatMsgs=[],aboutData={text:'UNIQUE HAVEN HOUSE'};
+try{
+complaints=JSON.parse(localStorage.getItem('uh_comp')||'[]');
+transJobs=JSON.parse(localStorage.getItem('uh_tjobs')||'[]');
+invoices=JSON.parse(localStorage.getItem('uh_inv')||'{}');
+workers=JSON.parse(localStorage.getItem('uh_workers')||'{}');
+reports=JSON.parse(localStorage.getItem('uh_reports')||'[]');
+refurbs=JSON.parse(localStorage.getItem('uh_refurbs')||'[]');
+completeJobs=JSON.parse(localStorage.getItem('uh_complete')||'[]');
+cp12List=JSON.parse(localStorage.getItem('uh_cp12')||'[]');
+companyHomes=JSON.parse(localStorage.getItem('uh_companyHomes')||'{}');
+customCompanyTabs=JSON.parse(localStorage.getItem('uh_customTabs')||'[]');
+chatMsgs=JSON.parse(localStorage.getItem('uh_chat')||'[]');
+}catch(e){}
+var pubInvPhotos=[],ocrAmounts=[],invPhotos=[];
+
+db.collection('complaints').orderBy('createdAt','desc').onSnapshot(s=>{
+let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});
+complaints=a;localStorage.setItem('uh_comp',JSON.stringify(a));if(curTab)renderContent();checkFlashes();
+});
+db.collection('transJobs').orderBy('createdAt','desc').onSnapshot(s=>{
+let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});
+transJobs=a;localStorage.setItem('uh_tjobs',JSON.stringify(a));if(curTab)renderContent();
+});
+db.collection('chatMsgs').orderBy('timeStamp','desc').limit(200).onSnapshot(s=>{
+let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});
+chatMsgs=a.reverse();localStorage.setItem('uh_chat',JSON.stringify(a));renderChatList();
+});
+db.collection('cp12List').onSnapshot(s=>{
+let a=[];s.forEach(d=>{let x=d.data();x._fid=d.id;a.push(x);});
+cp12List=a;localStorage.setItem('uh_cp12',JSON.stringify(a));checkFlashes();
+});
+db.collection('invoices_cloud').onSnapshot(s=>{
+let obj={};s.forEach(d=>{let inv=d.data();inv._fid=d.id;let ch=inv.chassis;if(!obj[ch])obj[ch]=[];obj[ch].push(inv);});
+invoices=obj;localStorage.setItem('uh_inv',JSON.stringify(obj));
+});
+
 function hideAll(){document.getElementById('outside').style.display='none';document.getElementById('app').style.display='none';document.getElementById('pageAbout').style.display='none';document.getElementById('pagePublicInvoice').style.display='none';}
 function backHome(){hideAll();document.getElementById('outside').style.display='block';document.getElementById('publicViewArea').innerHTML='';}
-function goAdmin(){let p=prompt('Admin Password:');if(p!==pw.admin){alert('Wrong');return;}role='admin';hideAll();document.getElementById('app').style.display='block';showTabs();}
-function goWorker(){let p=prompt('Worker Password:');if(p!==pw.worker){alert('Wrong');return;}let n=prompt('Worker Name:');if(n)localStorage.setItem('uh_curW',n.trim());role='worker';hideAll();document.getElementById('app').style.display='block';showTabs();}
-function goTransport(){let p=prompt('Transport Password:');if(p!==pw.transport){alert('Wrong');return;}let n=prompt('Driver Name:');if(n)localStorage.setItem('uh_curT',n.trim());role='transport';hideAll();document.getElementById('app').style.display='block';showTabs();}
-function openAbout(){hideAll();document.getElementById('pageAbout').style.display='block';document.getElementById('aboutView').innerHTML=aboutData.text;}
-function openPublicActive(){hideAll();document.getElementById('outside').style.display='block';renderPublicActive();}
-function openPublicRefurb(){hideAll();document.getElementById('outside').style.display='block';renderPublicRefurb();}
-function openPublicTransport(){hideAll();document.getElementById('outside').style.display='block';renderPublicTransport();}
-function openPublicChat(){hideAll();document.getElementById('outside').style.display='block';renderPublicChat();}
-function openPublicInvoice(){let p=prompt('Invoice Password:');if(p!==pw.invoice){alert('Wrong');return;}hideAll();document.getElementById('outside').style.display='block';document.getElementById('pagePublicInvoice').style.display='block';document.getElementById('publicViewArea').innerHTML='';renderPublicInvoiceForm();}
-function renderPublicInvoiceForm(){let sel=document.getElementById('pubInvFolderSelect');let folders=Object.keys(invoices);let opts='<option value="">-- Select Existing Folder --</option>';for(let i=0;i<folders.length;i++)opts+='<option value="'+folders[i]+'">'+folders[i]+' ('+invoices[folders[i]].length+')</option>';if(sel)sel.innerHTML=opts;pubInvPhotos=[];ocrAmounts=[];let box=document.getElementById('pubInvPrevBox');if(box)box.innerHTML='';document.getElementById('pubOcrStatus').innerHTML='Ready';document.getElementById('pubOcrBreakdown').innerHTML='';initPublicInvoiceUpload();}
-function initPublicInvoiceUpload(){function handleFiles(files){if(!files)return;let box=document.getElementById('pubInvPrevBox');ocrAmounts=[];for(let f=0;f<files.length;f++){(function(file,idx){let r=new FileReader();r.onload=function(ev){pubInvPhotos.push(ev.target.result);let img=document.createElement('img');img.src=ev.target.result;img.style.width='60px';img.style.height='60px';img.style.objectFit='cover';box.appendChild(img);try{Tesseract.recognize(ev.target.result,'eng').then(({data:{text}})=>{let v=extractSmartTotal(text);ocrAmounts[idx]=v;let sum=0;for(let j=0;j<ocrAmounts.length;j++)sum+=ocrAmounts[j]||0;document.getElementById('pubInvAmt').value=sum.toFixed(2);let bd='';for(let j=0;j<files.length;j++)if(ocrAmounts[j]!==undefined)bd+='R'+(j+1)+': £<input class=editAmt value="'+ocrAmounts[j].toFixed(2)+'" oninput=updateAmt('+j+',this.value)> ';bd+='<br><b>Total £'+sum.toFixed(2)+'</b>';document.getElementById('pubOcrBreakdown').innerHTML=bd;}});}catch(e){}};r.readAsDataURL(file);})(files[f],f);}}let cam=document.getElementById('pubInvCam');let lib=document.getElementById('pubInvLib');if(cam)cam.onchange=e=>{document.getElementById('pubInvPrevBox').innerHTML='';pubInvPhotos=[];handleFiles(e.target.files);};if(lib)lib.onchange=e=>{document.getElementById('pubInvPrevBox').innerHTML='';pubInvPhotos=[];handleFiles(e.target.files);};}
-
-**PART 2 - FINAL:**
-
-```html
-function submitPublicInvoice(){var ch=document.getElementById('pubInvChassis').value.trim();var comp=document.getElementById('pubInvCompany').value.trim();var person=document.getElementById('pubInvPerson').value.trim();var amt=document.getElementById('pubInvAmt').value.trim();var desc=document.getElementById('pubInvDesc').value.trim();if(!ch||!comp||!person||!amt){alert('All required');return;}if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt,desc:desc,company:comp,person:person,photos:pubInvPhotos.slice(),paid:false,date:new Date().toLocaleString()});localStorage.setItem('uh_inv',JSON.stringify(invoices));cloudAdd('invoices_cloud',{chassis:ch,amt:amt,desc:desc,company:comp,person:person,paid:false,date:new Date().toLocaleString()});pubInvPhotos=[];document.getElementById('pubInvPrevBox').innerHTML='';alert('✅ Submitted CLOUD ALL');}
-function showMyPublicInvoices(){let name=(document.getElementById('myInvNameSearch').value||'').toLowerCase();let area=document.getElementById('myInvListArea');let h='';for(let ch in invoices){for(let i=0;i<invoices[ch].length;i++){if((invoices[ch][i].person||'').toLowerCase().includes(name)){h+='<div class=card><b>'+ch+'</b> £'+invoices[ch][i].amt+' '+(invoices[ch][i].paid?'PAID':'UNPAID')+'</div>';}}}area.innerHTML=h||'No invoices';}
-function countPhotos(ch){let cnt=0;if(!invoices[ch])return 0;for(let i=0;i<invoices[ch].length;i++){if(invoices[ch][i].photos)cnt+=invoices[ch][i].photos.length;else if(invoices[ch][i].photo)cnt+=1;}return cnt;}
-function outsideSearch(){let q=(document.getElementById('outsideSearchInput')?.value||'').trim().toLowerCase();let area=document.getElementById('publicViewArea');if(!q){area.innerHTML='Type chassis';return;}let html='';for(let i=0;i<complaints.length;i++){if((complaints[i].chassis||'').toLowerCase().includes(q))html+='<div class=card>📢 '+complaints[i].chassis+' - '+complaints[i].issue+'</div>';}area.innerHTML=html||'No jobs';}
-function checkFlashes(){let alertBox=document.getElementById('globalAlert');let cpAlert=document.getElementById('cp12Alert');let msgs=[];let emergCount=complaints.filter(c=>c.emergency&&!c.completed).length;if(emergCount>0)msgs.push('🚨 '+emergCount+' EMERGENCY');let now=new Date();now.setHours(0,0,0,0);let expiring=[];for(let i=0;i<cp12List.length;i++){try{let d=new Date(cp12List[i].cpDate);d.setHours(0,0,0,0);let diff=Math.ceil((d-now)/86400000);if(diff>=0&&diff<=30)expiring.push(cp12List[i].chassis+' ('+diff+'d)');if(diff<0)expiring.push(cp12List[i].chassis+' EXPIRED');}catch(e){}}if(expiring.length>0){msgs.push('⚠️ CP12: '+expiring.join(', '));if(cpAlert){cpAlert.style.display='block';cpAlert.innerHTML='⚠️ CP12: '+expiring.join(', ')+' <button onclick=this.parentElement.style.display=\'none\'>X</button>';}}else if(cpAlert)cpAlert.style.display='none';if(msgs.length>0){alertBox.style.display='block';alertBox.className='flashRed';alertBox.innerHTML=msgs.join('<br>')+' <button onclick=this.parentElement.style.display=\'none\'>X</button>';}else alertBox.style.display='none';}
-function showTabs(){let list=[];if(role==='admin')list=['dash','reports','activeJobs','completeJobs','refurb','cp12','invoices','transportJobs','transportDone','transportForm','complaints','publicChatAdmin','workers','companyHomes','settings','aboutEdit'];else if(role==='worker')list=['myJobs','addReport','myDays','publicChatAdmin'];else list=['transportJobs','transportDone','publicChatAdmin'];let h='';for(let i=0;i<list.length;i++){h+='<button class=btn2 onclick=openTab(\''+list[i]+'\')>'+list[i].toUpperCase()+'</button>';}document.getElementById('tabs').innerHTML=h;openTab(list[0]);}
+function goAdmin(){var p=prompt('Admin Password:');if(p!==pw.admin){alert('Wrong');return;}role='admin';hideAll();document.getElementById('app').style.display='block';showTabs();}
+function goWorker(){var p=prompt('Worker Password:');if(p!==pw.worker){alert('Wrong');return;}var n=prompt('Worker Name:');if(n)localStorage.setItem('uh_curW',n.trim());role='worker';hideAll();document.getElementById('app').style.display='block';showTabs();}
+function goTransport(){var p=prompt('Transport Password:');if(p!==pw.transport){alert('Wrong');return;}var n=prompt('Driver Name:');if(n)localStorage.setItem('uh_curT',n.trim());role='transport';hideAll();document.getElementById('app').style.display='block';showTabs();}
+function openAbout(){hideAll();document.getElementById('pageAbout').style.display='block';}
+function openPublicActive(){hideAll();document.getElementById('outside').style.display='block';let area=document.getElementById('publicViewArea');let h='<div class=card><h3>ACTIVE</h3>';for(let i=0;i<complaints.length;i++)if(!complaints[i].completed)h+='<div class=card>📢 '+complaints[i].chassis+'</div>';area.innerHTML=h+'</div>';}
+function openPublicTransport(){hideAll();document.getElementById('outside').style.display='block';document.getElementById('publicViewArea').innerHTML='<div class=card>🚚 '+transJobs.length+' jobs</div>';}
+function openPublicRefurb(){hideAll();document.getElementById('outside').style.display='block';document.getElementById('publicViewArea').innerHTML='<div class=card>🏠 '+refurbs.length+' refurb</div>';}
+function openPublicChat(){hideAll();document.getElementById('outside').style.display='block';document.getElementById('publicViewArea').innerHTML='<div class=card><h3>CHAT</h3><input id=chatName placeholder=Name><textarea id=chatMsg></textarea><button class=btn2 onclick=sendChat()>Send ALL</button><div id=chatList></div></div>';renderChatList();}
+function openPublicInvoice(){var p=prompt('Invoice Password:');if(p!==pw.invoice){alert('Wrong');return;}hideAll();document.getElementById('pagePublicInvoice').style.display='block';renderPublicForm();}
+function renderPublicForm(){let sel=document.getElementById('pubInvFolderSelect');let opts='<option value=>--Folder--</option>';for(let k in invoices)opts+='<option value='+k+'>'+k+'</option>';if(sel)sel.innerHTML=opts;pubInvPhotos=[];ocrAmounts=[];document.getElementById('pubInvPrevBox').innerHTML='';document.getElementById('pubOcrStatus').innerHTML='Ready';document.getElementById('pubOcrBreakdown').innerHTML='';initPubUpload();}
+function initPubUpload(){function handle(files){let box=document.getElementById('pubInvPrevBox');ocrAmounts=[];for(let f=0;f<files.length;f++){(function(file,idx){let r=new FileReader();r.onload=function(ev){pubInvPhotos.push(ev.target.result);let img=document.createElement('img');img.src=ev.target.result;img.style.width='60px';img.style.height='60px';img.style.objectFit='cover';box.appendChild(img);try{Tesseract.recognize(ev.target.result,'eng').then(o=>{let v=0;try{let txt=o.data.text;let m=txt.match(/£?\s*(\d+\.\d{2})/g);if(m){let last=m[m.length-1];v=parseFloat(last.replace(/[^0-9.]/g,''));} }catch(e){} ocrAmounts[idx]=v;let sum=0;for(let j=0;j<ocrAmounts.length;j++)sum+=ocrAmounts[j]||0;document.getElementById('pubInvAmt').value=sum.toFixed(2);});}catch(e){}};r.readAsDataURL(file);})(files[f],f);}}let cam=document.getElementById('pubInvCam');let lib=document.getElementById('pubInvLib');if(cam)cam.onchange=e=>{document.getElementById('pubInvPrevBox').innerHTML='';pubInvPhotos=[];handle(e.target.files);};if(lib)lib.onchange=e=>{document.getElementById('pubInvPrevBox').innerHTML='';pubInvPhotos=[];handle(e.target.files);};}
+function submitPublicInvoice(){var ch=document.getElementById('pubInvChassis').value.trim();var comp=document.getElementById('pubInvCompany').value.trim();var person=document.getElementById('pubInvPerson').value.trim();var amt=document.getElementById('pubInvAmt').value.trim();var desc=document.getElementById('pubInvDesc').value.trim();if(!ch||!amt){alert('Need chassis+amt');return;}if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt,desc:desc,company:comp,person:person,paid:false});localStorage.setItem('uh_inv',JSON.stringify(invoices));cloudAdd('invoices_cloud',{chassis:ch,amt:amt,desc:desc,company:comp,person:person,paid:false});alert('✅ Submitted CLOUD');}
+function showMyPublicInvoices(){let name=(document.getElementById('myInvNameSearch').value||'').toLowerCase();let area=document.getElementById('myInvListArea');let h='';for(let ch in invoices){for(let i=0;i<invoices[ch].length;i++){if((invoices[ch][i].person||'').toLowerCase().includes(name))h+='<div class=card><b>'+ch+'</b> £'+invoices[ch][i].amt+'</div>';}}area.innerHTML=h||'No invoices';}
+function outsideSearch(){let q=(document.getElementById('outsideSearchInput').value||'').toLowerCase();let area=document.getElementById('publicViewArea');let h='';for(let i=0;i<complaints.length;i++)if((complaints[i].chassis||'').toLowerCase().includes(q))h+='<div class=card>📢 '+complaints[i].chassis+'</div>';area.innerHTML=h||'No jobs';}
+function checkFlashes(){let cpAlert=document.getElementById('cp12Alert');let now=new Date();now.setHours(0,0,0,0);let exp=[];for(let i=0;i<cp12List.length;i++){try{let d=new Date(cp12List[i].cpDate);d.setHours(0,0,0,0);let diff=Math.ceil((d-now)/86400000);if(diff>=0&&diff<=30)exp.push(cp12List[i].chassis+' ('+diff+'d)');if(diff<0)exp.push(cp12List[i].chassis+' EXPIRED');}catch(e){}}if(exp.length>0){cpAlert.style.display='block';cpAlert.innerHTML='⚠️ CP12: '+exp.join(', ')+' <button onclick=this.parentElement.style.display=\'none\'>X</button>';}else cpAlert.style.display='none';}
+function showTabs(){let list=[];if(role==='admin')list=['dash','reports','activeJobs','completeJobs','refurb','cp12','invoices','transportJobs','transportDone','transportForm','complaints','publicChatAdmin','workers','companyHomes','settings'];else if(role==='worker')list=['myJobs','addReport','myDays','publicChatAdmin'];else list=['transportJobs','transportDone','publicChatAdmin'];let h='';for(let i=0;i<list.length;i++)h+='<button class=btn2 onclick=openTab(\''+list[i]+'\')>'+list[i].toUpperCase()+'</button>';document.getElementById('tabs').innerHTML=h;openTab(list[0]);}
 var curTab='';function openTab(t){curTab=t;renderContent();}
 function renderContent(){
 let f=document.getElementById('content');
-let logoInside='<div class=cardLogo><svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="280" fill="#f5f2eb"/><g stroke="black" stroke-width="12" stroke-linecap="butt"><line x1="35" y1="85" x2="175" y2="18"/><line x1="18" y1="128" x2="185" y2="52"/><line x1="225" y1="18" x2="365" y2="85"/><line x1="215" y1="52" x2="382" y2="128"/><line x1="42" y1="160" x2="42" y2="235"/><line x1="358" y1="160" x2="358" y2="235"/></g><rect x="165" y="85" width="70" height="70" fill="black"/><rect x="177" y="97" width="18" height="18" fill="white"/><rect x="205" y="97" width="18" height="18" fill="white"/><rect x="177" y="125" width="18" height="18" fill="white"/><rect x="205" y="125" width="18" height="18" fill="white"/><text x="200" y="185" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text><text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="12" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text><g fill="black"><circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/><circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/><circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/></g></svg></div>';
 let html='';
-if(curTab==='dash'){html=logoInside+'<div class=card><h3>Dashboard CLOUD FIXED ✅ UNIFIED</h3>Reports:'+reports.length+'<br>Transport:'+transJobs.length+'<br>Complaints:'+complaints.length+'<br>CP12:'+cp12List.length+'</div>';}
-if(curTab==='reports'){html=logoInside+'<div class=card><h3>Reports</h3></div>';for(let i=0;i<reports.length;i++)html+='<div class=card>👷 '+reports[i].name+' '+reports[i].chassis+'</div>';}
-if(curTab==='myJobs'){html=logoInside+'<div class=card><h3>My Jobs<div id=myList></div></div>';}
-if(curTab==='activeJobs'){html=logoInside+'<div class=card><h3>ACTIVE JOBS CLOUD<div id=activeList></div></div>';}
-if(curTab==='completeJobs'){html=logoInside+'<div class=card><h3>COMPLETE</h3></div>';for(let i=0;i<completeJobs.length;i++)html+='<div class=card>✅ '+completeJobs[i].chassis+'</div>';}
-if(curTab==='refurb'){html=logoInside+'<div class=card><h3>Refurb</h3><input id=rfChassis placeholder=Chassis><input id=rfLocation placeholder=Location><input id=rfCompany placeholder=Company><input id=rfPost placeholder=Post><input id=rfAddr placeholder=Address><input id=rfTenant placeholder=Tenant><textarea id=rfWork placeholder=Work></textarea><button class=btn onclick=addRefurb()>+ CREATE</button></div>';for(let i=0;i<refurbs.length;i++)html+='<div class=card>🏠 '+refurbs[i].chassis+' <button class=btn2 onclick=completeRefurb('+i+')>Complete</button> <button class=btn2 onclick=delRefurb('+i+')>Del</button></div>';}
-if(curTab==='cp12'){html=logoInside+'<div class=card style=border:3px solid red><h3>CP12 - SYNC ALL</h3><input id=cpChassis placeholder=Chassis *><input id=cpAddr placeholder=Address><input id=cpTenant placeholder=Tenant><input id=cpDate type=date><input id=cpEicr type=date><input id=cpGas type=date><button class=btn onclick=addCp()>+ ADD CLOUD</button></div>';for(let i=0;i<cp12List.length;i++)html+='<div class=card><b>'+cp12List[i].chassis+'</b> '+cp12List[i].cpDate+' <button class=btn2 onclick=delCp('+i+')>Delete ALL</button></div>';}
-if(curTab==='invoices'){let folderOptions='<option value="">-- Select Folder --</option>';for(let k in invoices){folderOptions+='<option value="'+k+'">'+k+' ('+invoices[k].length+' inv)</option>';}html=logoInside+'<div class=card><h3>Invoices CLOUD + OCR</h3><select id=invFolderSelect>'+folderOptions+'</select><input id=invChassis placeholder=Chassis><input id=invCompany placeholder=Company><input id=invPerson placeholder=Person><input id=invAmt type=number placeholder=Amount><input id=invDesc placeholder=Title><input type=file id=invCam accept=image/* multiple><input type=file id=invLib accept=image/* multiple><div id=invPrevBox></div><div id=ocrStatus></div><div id=ocrBreakdown2></div><button class=btn onclick=addInv()>+ Add CLOUD</button></div>';for(let ch in invoices){html+='<div class=folder><b>📁 '+ch+'</b> <button class=btn2 onclick=toggleF(\''+ch+'\')>Open</button><div id=fold_'+ch+' style=display:none>';for(let j=0;j<invoices[ch].length;j++){let inv=invoices[ch][j];html+='<div class=card>📄 '+inv.desc+' £'+inv.amt+' '+(inv.paid?'<span class=badge paid>PAID</span>':'<span class=badge unpaid>UNPAID</span>')+'<br>By:'+inv.person+'<br><button class=btn2 onclick=togPaid(\''+ch+'\','+j+')>Toggle Paid</button> <button class=btn2 onclick=delInv(\''+ch+'\','+j+')>Delete ALL</button></div>';}html+='</div></div>';}}
-if(curTab==='transportJobs'){html=logoInside+'<div class=card><h3>Transport PENDING - SYNC ALL<div id=tjList></div></div>';}
-if(curTab==='transportDone'){html=logoInside+'<div class=card><h3>Transport DONE<div id=tjDone></div></div>';}
-if(curTab==='transportForm'){html=logoInside+'<div class=card><h3>Transport CLOUD ALL</h3><input id=atPickupAddr placeholder=Pickup Addr><input id=atPickupDate type=date><input id=atPickupPost placeholder=Pickup Post><input id=atChassis placeholder=Chassis *><input id=atDeliverPost placeholder=Delivery Post><input id=atTenant placeholder=Tenant><input id=atDeliverAddr placeholder=Delivery><input id=atPhone placeholder=Phone><input id=atPlot placeholder=Plot><input id=atDeliverDate type=date><input id=atAssign placeholder=Driver *><button class=btn onclick=submitAdminT()>SUBMIT CLOUD ALL</button></div>';}
-if(curTab==='complaints'){html=logoInside+'<div class=card style=border:3px solid #00c851><h3>Create Complaint SYNC ALL</h3><input id=acName placeholder=Tenant *><input id=acPhone placeholder=Phone><input id=acLocation placeholder=Location *><input id=acPlot placeholder=Plot><input id=acChassis placeholder=Chassis *><input id=acAddr placeholder=Address><textarea id=acIssue placeholder=Issue *></textarea><input id=acAssign placeholder=Worker *><label><input type=checkbox id=acEmerg> Emergency</label><br><button class=btn onclick=adminCreateComplaint()>+ CREATE ALL</button></div>';for(let i=0;i<complaints.length;i++){let c=complaints[i];html+='<div class=card>'+(c.completed?'✅':'⏳')+' <b>'+c.chassis+'</b> Assigned:'+c.assignedTo+'<br><button class=btn2 onclick=compDone('+i+')>Complete ALL</button> <button class=btn2 onclick=delComp('+i+')>Delete ALL</button></div>';}}
-if(curTab==='publicChatAdmin'){html=logoInside+'<div class=card><h3>💬 CHAT SYNC ALL ✅</h3><input id=chatName placeholder=Name value='+(role==='admin'?'Admin':localStorage.getItem('uh_curW')||'Guest')+'><textarea id=chatMsg></textarea><button class=btn onclick=sendChat()>Send ALL</button> <button class=btn2 onclick=clearChat()>Clear ALL</button><div id=adminChatList></div></div>';}
-if(curTab==='workers'){html=logoInside+'<div class=card><h3>Workers Days</h3></div>';for(let k in workers)html+='<div class=card>👷 '+k+' Days:'+(workers[k].days?workers[k].days.length:0)+'</div>';}
-if(curTab==='companyHomes'){html=logoInside+'<div class=card><h3>Company Homes DB</h3><input id=newCompanyTab placeholder=New Company><button class=btn onclick=createTab()>+ Create Tab</button></div><div class=card><input id=homeSearch placeholder=Search... oninput=renderHomes()><div id=homesList></div></div><div class=card><h4>Add Home</h4><select id=selCompany>'+getCompOpts()+'</select><input id=hChassis placeholder=Chassis *><input id=hLocation placeholder=Location><input id=hAddr placeholder=Address><input id=hTenant placeholder=Tenant><input id=hPost placeholder=Post><input id=hCompany placeholder=Company><button class=btn onclick=addHome()>+ Add Home</button></div>';}
-if(curTab==='settings'){html=logoInside+'<div class=card><h3>Settings Passwords</h3>Admin:<input id=setAdmin value='+pw.admin+'><br>Worker:<input id=setWorker value='+pw.worker+'><br>Transport:<input id=setTrans value='+pw.transport+'><br>Invoice:<input id=setInvoice value='+pw.invoice+'><br><button class=btn onclick=savePw()>Save</button></div>';}
-if(curTab==='addReport'){html=logoInside+'<div class=card><h3>Add Report</h3><input id=rChassis placeholder=Chassis><input id=rLocation placeholder=Location><input id=jobAddr placeholder=Addr><input id=rDate type=date><input id=hours placeholder=Hours><textarea id=workDone placeholder=Work></textarea><button class=btn onclick=submitReport()>Submit</button></div>';}
-if(curTab==='myDays'){let curW=localStorage.getItem('uh_curW')||'';html=logoInside+'<div class=card>👷 '+curW+' Days:'+(workers[curW]&&workers[curW].days?workers[curW].days.length:0)+'</div>';}
-if(curTab==='aboutEdit'){html=logoInside+'<div class=card><h3>About Edit</h3><textarea id=aboutText>'+aboutData.text.replace(/<br>/g,'\n')+'</textarea><button class=btn onclick=saveAbout()>Save</button></div>';}
+if(curTab==='dash'){html='<div class=card><h3>Dashboard ✅ ONE LOGO ONLY</h3>Complaints:'+complaints.length+'<br>Transport:'+transJobs.length+'<br>CP12:'+cp12List.length+'</div>';}
+if(curTab==='reports'){html='<div class=card><h3>Reports</h3></div>';for(let i=0;i<reports.length;i++)html+='<div class=card>👷 '+reports[i].name+' '+reports[i].chassis+'</div>';}
+if(curTab==='myJobs'){html='<div class=card><h3>My Jobs<div id=myList></div></div>';}
+if(curTab==='activeJobs'){html='<div class=card><h3>ACTIVE JOBS CLOUD<div id=activeList></div></div>';}
+if(curTab==='completeJobs'){html='<div class=card><h3>COMPLETE</h3></div>';for(let i=0;i<completeJobs.length;i++)html+='<div class=card>✅ '+completeJobs[i].chassis+'</div>';}
+if(curTab==='refurb'){html='<div class=card><h3>Refurb</h3><input id=rfChassis placeholder=Chassis><button class=btn onclick=addRefurb()>+ CREATE</button></div>';for(let i=0;i<refurbs.length;i++)html+='<div class=card>🏠 '+refurbs[i].chassis+' <button class=btn2 onclick=delRefurb('+i+')>Del</button></div>';}
+if(curTab==='cp12'){html='<div class=card style=border:3px solid red><h3>CP12 SYNC ALL</h3><input id=cpChassis placeholder=Chassis><input id=cpDate type=date><button class=btn onclick=addCp()>+ ADD CLOUD</button></div>';for(let i=0;i<cp12List.length;i++)html+='<div class=card>'+cp12List[i].chassis+' '+cp12List[i].cpDate+' <button class=btn2 onclick=delCp('+i+')>Delete ALL</button></div>';}
+if(curTab==='invoices'){html='<div class=card><h3>Invoices CLOUD</h3><input id=invChassis placeholder=Chassis><input id=invAmt placeholder=Amt><button class=btn onclick=addInv()>+ Add</button></div>';for(let ch in invoices)for(let j=0;j<invoices[ch].length;j++)html+='<div class=card>'+ch+' £'+invoices[ch][j].amt+' <button class=btn2 onclick=delInv(\''+ch+'\','+j+')>Del ALL</button></div>';}
+if(curTab==='transportJobs'){html='<div class=card><h3>Transport PENDING - SYNC ALL<div id=tjList></div></div>';}
+if(curTab==='transportDone'){html='<div class=card><h3>Transport DONE<div id=tjDone></div></div>';}
+if(curTab==='transportForm'){html='<div class=card><h3>Transport Form CLOUD ALL</h3><input id=atChassis placeholder=Chassis><input id=atAssign placeholder=Driver><button class=btn onclick=submitAdminT()>SUBMIT ALL</button></div>';}
+if(curTab==='complaints'){html='<div class=card><h3>Complaint SYNC ALL</h3><input id=acChassis placeholder=Chassis *><input id=acAssign placeholder=Worker *><button class=btn onclick=adminCreateComplaint()>+ CREATE ALL</button></div>';for(let i=0;i<complaints.length;i++)html+='<div class=card>'+(complaints[i].completed?'✅':'⏳')+' '+complaints[i].chassis+' Assigned:'+complaints[i].assignedTo+'<br><button class=btn2 onclick=compDone('+i+')>Complete ALL</button> <button class=btn2 onclick=delComp('+i+')>Delete ALL</button></div>';}
+if(curTab==='publicChatAdmin'){html='<div class=card><h3>💬 CHAT SYNC ALL ✅</h3><input id=chatName placeholder=Name value='+(role==='admin'?'Admin':localStorage.getItem('uh_curW')||'Guest')+'><textarea id=chatMsg></textarea><button class=btn onclick=sendChat()>Send ALL</button> <button class=btn2 onclick=clearChat()>Clear ALL</button><div id=adminChatList></div></div>';}
+if(curTab==='workers'){html='<div class=card><h3>Workers</h3></div>';for(let k in workers)html+='<div class=card>👷 '+k+'</div>';}
+if(curTab==='companyHomes'){html='<div class=card><h3>Company Homes</h3><input id=newCompanyTab placeholder=New Company><button class=btn onclick=createTab()>+ Create</button></div><div id=homesList></div>';}
+if(curTab==='settings'){html='<div class=card><h3>Settings</h3><input id=setAdmin value='+pw.admin+'><button class=btn onclick=savePw()>Save</button></div>';}
+if(curTab==='addReport'){html='<div class=card><h3>Add Report</h3><input id=rChassis placeholder=Chassis><textarea id=workDone></textarea><input id=rDate type=date><button class=btn onclick=submitReport()>Submit</button></div>';}
+if(curTab==='myDays'){html='<div class=card>Worker: '+(localStorage.getItem('uh_curW')||'')+'</div>';}
 f.innerHTML=html;
 if(curTab==='activeJobs'){let list=document.getElementById('activeList');if(list){let h='';for(let i=0;i<complaints.length;i++)if(!complaints[i].completed)h+='<div class=card>📢 '+complaints[i].chassis+'</div>';list.innerHTML=h;}}
 if(curTab==='transportJobs'){let list=document.getElementById('tjList');if(list){let h='';for(let i=0;i<transJobs.length;i++)if(!transJobs[i].done)h+='<div class=card>🚚 '+transJobs[i].chassis+' <button class=btn onclick=markDone('+i+')>Done ALL</button></div>';list.innerHTML=h;}}
 if(curTab==='transportDone'){let list=document.getElementById('tjDone');if(list){let h='';for(let i=0;i<transJobs.length;i++)if(transJobs[i].done)h+='<div class=card>✅ '+transJobs[i].chassis+' <button class=btn2 onclick=markDone('+i+')>Undo ALL</button></div>';list.innerHTML=h;}}
 if(curTab==='myJobs'){let list=document.getElementById('myList');if(list){let curW=(localStorage.getItem('uh_curW')||'').toLowerCase();let h='';for(let i=0;i<complaints.length;i++)if(!complaints[i].completed&&(complaints[i].assignedTo||'').toLowerCase()===curW)h+='<div class=card>📢 MY JOB '+complaints[i].chassis+'<br><button class=btn onclick=workerCompDone('+i+')>✅ Done ALL</button></div>';list.innerHTML=h||'No jobs';}}
+if(curTab==='publicChatAdmin')renderChatList();
 if(curTab==='companyHomes')renderHomes();
-if(curTab==='publicChatAdmin')setTimeout(renderChatList,100);
-if(curTab==='invoices')initInvUpload();
 checkFlashes();
 }
-function toggleF(ch){let el=document.getElementById('fold_'+ch);el.style.display=el.style.display==='none'?'block':'none';}
-function addInv(){let ch=document.getElementById('invChassis').value.trim();let amt=document.getElementById('invAmt').value.trim();if(!ch||!amt)return;if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt,desc:document.getElementById('invDesc').value,company:document.getElementById('invCompany')?.value||'',person:document.getElementById('invPerson')?.value||'Admin',photos:invPhotos.slice(),paid:false});localStorage.setItem('uh_inv',JSON.stringify(invoices));cloudAdd('invoices_cloud',{chassis:ch,amt:amt,desc:document.getElementById('invDesc').value,company:document.getElementById('invCompany')?.value||'',person:document.getElementById('invPerson')?.value||'Admin',paid:false});invPhotos=[];renderContent();}
-function togPaid(ch,i){invoices[ch][i].paid=!invoices[ch][i].paid;localStorage.setItem('uh_inv',JSON.stringify(invoices));let inv=invoices[ch][i];if(inv._fid)cloudUpdateById('invoices_cloud',inv._fid,{paid:inv.paid});renderContent();}
-function delInv(ch,i){if(confirm('Delete ALL?')){let inv=invoices[ch][i];if(inv._fid)cloudDeleteById('invoices_cloud',inv._fid);invoices[ch].splice(i,1);if(invoices[ch].length==0)delete invoices[ch];localStorage.setItem('uh_inv',JSON.stringify(invoices));renderContent();}}
-function initInvUpload(){function handle(f){for(let i=0;i<f.length;i++){let r=new FileReader();r.onload=e=>{invPhotos.push(e.target.result);};r.readAsDataURL(f[i]);}}let cam=document.getElementById('invCam');let lib=document.getElementById('invLib');if(cam)cam.onchange=e=>handle(e.target.files);if(lib)lib.onchange=e=>handle(e.target.files);}
-function adminCreateComplaint(){let o={name:document.getElementById('acName').value.trim(),chassis:document.getElementById('acChassis').value.trim(),location:document.getElementById('acLocation').value.trim(),plot:document.getElementById('acPlot').value.trim(),addr:document.getElementById('acAddr').value.trim(),phone:document.getElementById('acPhone').value.trim(),issue:document.getElementById('acIssue').value.trim(),assignedTo:document.getElementById('acAssign').value.trim(),emergency:document.getElementById('acEmerg').checked,completed:false,date:new Date().toLocaleDateString()};if(!o.chassis||!o.assignedTo)return;complaints.unshift(o);localStorage.setItem('uh_comp',JSON.stringify(complaints));cloudAdd('complaints',o);renderContent();}
+function addInv(){let ch=document.getElementById('invChassis').value.trim();let amt=document.getElementById('invAmt').value.trim();if(!ch||!amt)return;if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt});localStorage.setItem('uh_inv',JSON.stringify(invoices));cloudAdd('invoices_cloud',{chassis:ch,amt:amt});renderContent();}
+function delInv(ch,i){let inv=invoices[ch][i];if(inv._fid)cloudDeleteById('invoices_cloud',inv._fid);invoices[ch].splice(i,1);localStorage.setItem('uh_inv',JSON.stringify(invoices));renderContent();}
+function adminCreateComplaint(){let o={chassis:document.getElementById('acChassis').value.trim(),assignedTo:document.getElementById('acAssign').value.trim(),completed:false};if(!o.chassis||!o.assignedTo)return;complaints.unshift(o);localStorage.setItem('uh_comp',JSON.stringify(complaints));cloudAdd('complaints',o);renderContent();}
 function delComp(i){let c=complaints[i];if(c._fid)cloudDeleteById('complaints',c._fid);complaints.splice(i,1);localStorage.setItem('uh_comp',JSON.stringify(complaints));renderContent();}
 function compDone(i){let c=complaints[i];c.completed=true;localStorage.setItem('uh_comp',JSON.stringify(complaints));if(c._fid)cloudUpdateById('complaints',c._fid,{completed:true});renderContent();}
 function workerCompDone(idx){let c=complaints[idx];c.completed=true;if(c._fid)cloudUpdateById('complaints',c._fid,{completed:true});localStorage.setItem('uh_comp',JSON.stringify(complaints));renderContent();}
-function submitAdminT(){let j={pickPost:document.getElementById('atPickupPost').value,pickAddr:document.getElementById('atPickupAddr').value,pickDate:document.getElementById('atPickupDate').value,chassis:document.getElementById('atChassis').value,deliverPost:document.getElementById('atDeliverPost').value,tenant:document.getElementById('atTenant').value,deliverAddr:document.getElementById('atDeliverAddr').value,phone:document.getElementById('atPhone').value,plot:document.getElementById('atPlot').value,deliverDate:document.getElementById('atDeliverDate').value,assignedTo:document.getElementById('atAssign').value.trim(),done:false};if(!j.chassis||!j.assignedTo)return;transJobs.unshift(j);localStorage.setItem('uh_tjobs',JSON.stringify(transJobs));cloudAdd('transJobs',j);renderContent();}
+function submitAdminT(){let j={chassis:document.getElementById('atChassis').value,assignedTo:document.getElementById('atAssign').value.trim(),done:false};if(!j.chassis||!j.assignedTo)return;transJobs.unshift(j);localStorage.setItem('uh_tjobs',JSON.stringify(transJobs));cloudAdd('transJobs',j);renderContent();}
 function markDone(i){let j=transJobs[i];j.done=!j.done;localStorage.setItem('uh_tjobs',JSON.stringify(transJobs));if(j._fid)cloudUpdateById('transJobs',j._fid,{done:j.done});renderContent();}
-function savePw(){pw.admin=document.getElementById('setAdmin').value;pw.worker=document.getElementById('setWorker').value;pw.transport=document.getElementById('setTrans').value;pw.invoice=document.getElementById('setInvoice').value;localStorage.setItem('uh_pw',JSON.stringify(pw));alert('Saved');}
-function submitReport(){let name=localStorage.getItem('uh_curW')||'Worker';let ch=document.getElementById('rChassis').value.trim();if(!ch)return;let date=document.getElementById('rDate').value||new Date().toLocaleDateString();let e={name:name,chassis:ch,date:date};reports.unshift(e);localStorage.setItem('uh_reports',JSON.stringify(reports));if(!workers[name])workers[name]={days:[]};if(!workers[name].days.includes(date))workers[name].days.push(date);localStorage.setItem('uh_workers',JSON.stringify(workers));renderContent();}
-function addRefurb(){let ch=document.getElementById('rfChassis').value;if(!ch)return;refurbs.unshift({chassis:ch,location:document.getElementById('rfLocation').value,company:document.getElementById('rfCompany').value,postcode:document.getElementById('rfPost').value,addr:document.getElementById('rfAddr').value,tenant:document.getElementById('rfTenant').value,work:document.getElementById('rfWork').value,completed:false});localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
-function completeRefurb(i){refurbs[i].completed=true;localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
-function delRefurb(i){refurbs.splice(i,1);localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
-function addCp(){let o={chassis:document.getElementById('cpChassis').value,addr:document.getElementById('cpAddr').value,tenant:document.getElementById('cpTenant').value,cpDate:document.getElementById('cpDate').value,eicr:document.getElementById('cpEicr').value,gas:document.getElementById('cpGas').value};if(!o.chassis||!o.cpDate)return;cp12List.unshift(o);localStorage.setItem('uh_cp12',JSON.stringify(cp12List));cloudAdd('cp12List',o);renderContent();checkFlashes();}
+function addCp(){let o={chassis:document.getElementById('cpChassis').value,cpDate:document.getElementById('cpDate').value};if(!o.chassis||!o.cpDate)return;cp12List.unshift(o);localStorage.setItem('uh_cp12',JSON.stringify(cp12List));cloudAdd('cp12List',o);renderContent();checkFlashes();}
 function delCp(i){let c=cp12List[i];if(c._fid)cloudDeleteById('cp12List',c._fid);cp12List.splice(i,1);localStorage.setItem('uh_cp12',JSON.stringify(cp12List));renderContent();checkFlashes();}
-function createTab(){let n=document.getElementById('newCompanyTab').value.trim();if(!n)return;if(!customCompanyTabs.includes(n)){customCompanyTabs.push(n);companyHomes[n]=[];localStorage.setItem('uh_customTabs',JSON.stringify(customCompanyTabs));localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderContent();}}
-function getCompOpts(){let o='';for(let i=0;i<customCompanyTabs.length;i++){o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';}if(!o)o='<option value="General">General</option>';return o;}
-function addHome(){let comp=document.getElementById('selCompany').value||'General';let obj={chassis:document.getElementById('hChassis').value,location:document.getElementById('hLocation').value,addr:document.getElementById('hAddr').value,tenant:document.getElementById('hTenant').value,postcode:document.getElementById('hPost').value,company:document.getElementById('hCompany').value||comp};if(!obj.chassis)return;if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(obj);if(!customCompanyTabs.includes(comp))customCompanyTabs.push(comp);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));localStorage.setItem('uh_customTabs',JSON.stringify(customCompanyTabs));renderHomes();}
-function renderHomes(){let list=document.getElementById('homesList');if(!list)return;let q=(document.getElementById('homeSearch')?.value||'').toLowerCase();let h='';for(let c in companyHomes){let filtered=companyHomes[c].filter(hm=>(hm.chassis+hm.tenant+hm.location).toLowerCase().includes(q));h+='<div style=color:#000;font-weight:bold;margin-top:10px>📁 '+c+' ('+filtered.length+')</div>';for(let i=0;i<filtered.length;i++){let hm=filtered[i];h+='<div class=card>🏠 <b>'+hm.chassis+'</b> - '+hm.tenant+'<br><button class=btn2 onclick=delHome(\''+c+'\','+i+')>Del</button></div>';}}list.innerHTML=h;let sel=document.getElementById('selCompany');if(sel)sel.innerHTML=getCompOpts();}
-function delHome(c,i){companyHomes[c].splice(i,1);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderHomes();}
-function renderMy(){let curW=(localStorage.getItem('uh_curW')||'').toLowerCase();let list=document.getElementById('myList');if(!list)return;let h='';for(let i=0;i<complaints.length;i++){if(!complaints[i].completed&&(complaints[i].assignedTo||'').toLowerCase()===curW){h+='<div class=card>📢 MY JOB '+complaints[i].chassis+'<br><button class=btn onclick=workerCompDone('+i+')>✅ Done ALL</button></div>';}}list.innerHTML=h||'No jobs';}
-function renderPublicActive(){let area=document.getElementById('publicViewArea');area.innerHTML='<div class=card><h3>ACTIVE CLOUD</h3><div id=pubActive></div></div>';let list=document.getElementById('pubActive');let h='';for(let i=0;i<complaints.length;i++)if(!complaints[i].completed)h+='<div class=card>📢 '+complaints[i].chassis+'</div>';list.innerHTML=h;}
-function renderPublicRefurb(){let area=document.getElementById('publicViewArea');area.innerHTML='<div class=card>REFURB '+refurbs.length+'</div>';}
-function renderPublicTransport(){let area=document.getElementById('publicViewArea');area.innerHTML='<div class=card>TRANSPORT '+transJobs.length+'</div>';}
-function renderPublicChat(){let area=document.getElementById('publicViewArea');area.innerHTML='<div class=card><h3>CHAT CLOUD ALL</h3><input id=chatName placeholder=Name><textarea id=chatMsg></textarea><button class=btn2 onclick=sendChat()>Send ALL</button><div id=chatList></div></div>';renderChatList();}
-function sendChat(){let name=document.getElementById('chatName').value.trim()||'Guest';let msg=document.getElementById('chatMsg').value.trim();if(!msg)return;chatMsgs.unshift({name:name,msg:msg,time:new Date().toLocaleString()});localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));cloudAdd('chatMsgs',{name:name,msg:msg,time:new Date().toLocaleString()});document.getElementById('chatMsg').value='';renderChatList();}
-function renderChatList(){let list=document.getElementById('chatList')||document.getElementById('adminChatList');if(!list)return;let h='';for(let i=0;i<chatMsgs.length;i++){h+='<div class=card><b>'+chatMsgs[i].name+'</b> '+chatMsgs[i].msg+' '+(role==='admin'?'<button class=btn2 onclick=delChat('+i+')>Del ALL</button>':'')+'</div>';}list.innerHTML=h;}
-function delChat(i){if(confirm('Delete ALL?')){let c=chatMsgs[i];if(c._fid)cloudDeleteById('chatMsgs',c._fid);chatMsgs.splice(i,1);localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();}}
+function submitReport(){let name=localStorage.getItem('uh_curW')||'Worker';let ch=document.getElementById('rChassis').value.trim();if(!ch)return;let e={name:name,chassis:ch,date:new Date().toLocaleDateString()};reports.unshift(e);localStorage.setItem('uh_reports',JSON.stringify(reports));if(!workers[name])workers[name]={days:[]};workers[name].days.push(e.date);localStorage.setItem('uh_workers',JSON.stringify(workers));renderContent();}
+function addRefurb(){let ch=document.getElementById('rfChassis').value;if(!ch)return;refurbs.unshift({chassis:ch});localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
+function delRefurb(i){refurbs.splice(i,1);localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
+function savePw(){pw.admin=document.getElementById('setAdmin').value;localStorage.setItem('uh_pw',JSON.stringify(pw));alert('Saved');}
+function createTab(){let n=document.getElementById('newCompanyTab').value.trim();if(!n)return;if(!customCompanyTabs.includes(n)){customCompanyTabs.push(n);companyHomes[n]=[];localStorage.setItem('uh_customTabs',JSON.stringify(customCompanyTabs));localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderHomes();}}
+function addHome(){let comp=document.getElementById('selCompany').value||'General';let obj={chassis:document.getElementById('hChassis').value};if(!obj.chassis)return;if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(obj);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderHomes();}
+function renderHomes(){let list=document.getElementById('homesList');if(!list)return;let h='';for(let c in companyHomes){h+='<div class=card><b>'+c+'</b> ('+companyHomes[c].length+')</div>';for(let i=0;i<companyHomes[c].length;i++)h+='<div class=card>'+companyHomes[c][i].chassis+'</div>';}list.innerHTML=h;}
+function sendChat(){let name=document.getElementById('chatName').value.trim()||'Guest';let msg=document.getElementById('chatMsg').value.trim();if(!msg)return;chatMsgs.unshift({name:name,msg:msg});localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));cloudAdd('chatMsgs',{name:name,msg:msg});document.getElementById('chatMsg').value='';renderChatList();}
+function renderChatList(){let list=document.getElementById('chatList')||document.getElementById('adminChatList');if(!list)return;let h='';for(let i=0;i<chatMsgs.length;i++)h+='<div class=card><b>'+chatMsgs[i].name+'</b> '+chatMsgs[i].msg+' <button class=btn2 onclick=delChat('+i+')>Del ALL</button></div>';list.innerHTML=h;}
+function delChat(i){let c=chatMsgs[i];if(c._fid)cloudDeleteById('chatMsgs',c._fid);chatMsgs.splice(i,1);localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();}
 function clearChat(){if(confirm('Clear ALL?')){db.collection('chatMsgs').get().then(s=>s.forEach(d=>d.ref.delete()));chatMsgs=[];localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();}}
-function saveAbout(){let txt=document.getElementById('aboutText').value;aboutData.text=txt;localStorage.setItem('uh_about',JSON.stringify(aboutData));alert('Saved');}
-function askNotify(){if('Notification' in window)Notification.requestPermission().then(p=>alert(p));}
 checkFlashes();
-</script></body></html>function submitPublicInvoice(){var ch=document.getElementById('pubInvChassis').value.trim();var comp=document.getElementById('pubInvCompany').value.trim();var person=document.getElementById('pubInvPerson').value.trim();var amt=document.getElementById('pubInvAmt').value.trim();var desc=document.getElementById('pubInvDesc').value.trim();if(!ch||!comp||!person||!amt){alert('All required');return;}if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt,desc:desc,company:comp,person:person,photos:pubInvPhotos.slice(),paid:false,date:new Date().toLocaleString()});localStorage.setItem('uh_inv',JSON.stringify(invoices));cloudAdd('invoices_cloud',{chassis:ch,amt:amt,desc:desc,company:comp,person:person,paid:false,date:new Date().toLocaleString()});pubInvPhotos=[];document.getElementById('pubInvPrevBox').innerHTML='';alert('✅ Submitted CLOUD ALL');}
-function showMyPublicInvoices(){let name=(document.getElementById('myInvNameSearch').value||'').toLowerCase();let area=document.getElementById('myInvListArea');let h='';for(let ch in invoices){for(let i=0;i<invoices[ch].length;i++){if((invoices[ch][i].person||'').toLowerCase().includes(name)){h+='<div class=card><b>'+ch+'</b> £'+invoices[ch][i].amt+' '+(invoices[ch][i].paid?'PAID':'UNPAID')+'</div>';}}}area.innerHTML=h||'No invoices';}
-function countPhotos(ch){let cnt=0;if(!invoices[ch])return 0;for(let i=0;i<invoices[ch].length;i++){if(invoices[ch][i].photos)cnt+=invoices[ch][i].photos.length;else if(invoices[ch][i].photo)cnt+=1;}return cnt;}
-function outsideSearch(){let q=(document.getElementById('outsideSearchInput')?.value||'').trim().toLowerCase();let area=document.getElementById('publicViewArea');if(!q){area.innerHTML='Type chassis';return;}let html='';for(let i=0;i<complaints.length;i++){if((complaints[i].chassis||'').toLowerCase().includes(q))html+='<div class=card>📢 '+complaints[i].chassis+' - '+complaints[i].issue+'</div>';}area.innerHTML=html||'No jobs';}
-function checkFlashes(){let alertBox=document.getElementById('globalAlert');let cpAlert=document.getElementById('cp12Alert');let msgs=[];let emergCount=complaints.filter(c=>c.emergency&&!c.completed).length;if(emergCount>0)msgs.push('🚨 '+emergCount+' EMERGENCY');let now=new Date();now.setHours(0,0,0,0);let expiring=[];for(let i=0;i<cp12List.length;i++){try{let d=new Date(cp12List[i].cpDate);d.setHours(0,0,0,0);let diff=Math.ceil((d-now)/86400000);if(diff>=0&&diff<=30)expiring.push(cp12List[i].chassis+' ('+diff+'d)');if(diff<0)expiring.push(cp12List[i].chassis+' EXPIRED');}catch(e){}}if(expiring.length>0){msgs.push('⚠️ CP12: '+expiring.join(', '));if(cpAlert){cpAlert.style.display='block';cpAlert.innerHTML='⚠️ CP12: '+expiring.join(', ')+' <button onclick=this.parentElement.style.display=\'none\'>X</button>';}}else if(cpAlert)cpAlert.style.display='none';if(msgs.length>0){alertBox.style.display='block';alertBox.className='flashRed';alertBox.innerHTML=msgs.join('<br>')+' <button onclick=this.parentElement.style.display=\'none\'>X</button>';}else alertBox.style.display='none';}
-function showTabs(){let list=[];if(role==='admin')list=['dash','reports','activeJobs','completeJobs','refurb','cp12','invoices','transportJobs','transportDone','transportForm','complaints','publicChatAdmin','workers','companyHomes','settings','aboutEdit'];else if(role==='worker')list=['myJobs','addReport','myDays','publicChatAdmin'];else list=['transportJobs','transportDone','publicChatAdmin'];let h='';for(let i=0;i<list.length;i++){h+='<button class=btn2 onclick=openTab(\''+list[i]+'\')>'+list[i].toUpperCase()+'</button>';}document.getElementById('tabs').innerHTML=h;openTab(list[0]);}
-var curTab='';function openTab(t){curTab=t;renderContent();}
-function renderContent(){
-let f=document.getElementById('content');
-let logoInside='<div class=cardLogo><svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="280" fill="#f5f2eb"/><g stroke="black" stroke-width="12" stroke-linecap="butt"><line x1="35" y1="85" x2="175" y2="18"/><line x1="18" y1="128" x2="185" y2="52"/><line x1="225" y1="18" x2="365" y2="85"/><line x1="215" y1="52" x2="382" y2="128"/><line x1="42" y1="160" x2="42" y2="235"/><line x1="358" y1="160" x2="358" y2="235"/></g><rect x="165" y="85" width="70" height="70" fill="black"/><rect x="177" y="97" width="18" height="18" fill="white"/><rect x="205" y="97" width="18" height="18" fill="white"/><rect x="177" y="125" width="18" height="18" fill="white"/><rect x="205" y="125" width="18" height="18" fill="white"/><text x="200" y="185" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text><text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="12" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text><g fill="black"><circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/><circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/><circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/></g></svg></div>';
-let html='';
-if(curTab==='dash'){html=logoInside+'<div class=card><h3>Dashboard CLOUD FIXED ✅ UNIFIED</h3>Reports:'+reports.length+'<br>Transport:'+transJobs.length+'<br>Complaints:'+complaints.length+'<br>CP12:'+cp12List.length+'</div>';}
-if(curTab==='reports'){html=logoInside+'<div class=card><h3>Reports</h3></div>';for(let i=0;i<reports.length;i++)html+='<div class=card>👷 '+reports[i].name+' '+reports[i].chassis+'</div>';}
-if(curTab==='myJobs'){html=logoInside+'<div class=card><h3>My Jobs<div id=myList></div></div>';}
-if(curTab==='activeJobs'){html=logoInside+'<div class=card><h3>ACTIVE JOBS CLOUD<div id=activeList></div></div>';}
-if(curTab==='completeJobs'){html=logoInside+'<div class=card><h3>COMPLETE</h3></div>';for(let i=0;i<completeJobs.length;i++)html+='<div class=card>✅ '+completeJobs[i].chassis+'</div>';}
-if(curTab==='refurb'){html=logoInside+'<div class=card><h3>Refurb</h3><input id=rfChassis placeholder=
+</script></body></html>
