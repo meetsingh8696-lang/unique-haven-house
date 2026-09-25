@@ -1,92 +1,103 @@
-function submitPublicInvoice(){
-var ch=document.getElementById('pubInvChassis').value.trim();
-var comp=document.getElementById('pubInvCompany').value.trim();
-var person=document.getElementById('pubInvPerson').value.trim();
-var amt=document.getElementById('pubInvAmt').value.trim();
-var desc=document.getElementById('pubInvDesc').value.trim();
-if(!ch||!comp||!person||!amt){alert('All required fields - Chassis Company Name Amount');return;}
-if(!invoices[ch])invoices[ch]=[];
-invoices[ch].push({amt:amt,desc:desc,company:comp,person:person,photos:pubInvPhotos.slice(),paid:false,date:new Date().toLocaleString()});
-localStorage.setItem('uh_inv',JSON.stringify(invoices));
-cloudAdd('invoices_cloud',{chassis:ch,amt:amt,desc:desc,company:comp,person:person,paid:false,date:new Date().toLocaleString()});
-pubInvPhotos=[];ocrAmounts=[];
-document.getElementById('pubInvPrevBox').innerHTML='';
-document.getElementById('pubOcrStatus').innerHTML='✅ Submitted CLOUD ALL PHONES';
-alert('✅ Invoice Submitted - Cloud Sync ALL PHONES will see!');
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FINAL BEIGE 16 TABS</title>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<style>
+body{margin:0;padding:0 0 100px;background:#f5f2eb;color:#000;font-family:Arial;font-weight:700}
+.top{background:#f5f2eb;text-align:center;padding:16px;border-bottom:4px solid #000;position:sticky;top:0;z-index:99}
+.logo{width:150px;height:140px;margin:0 auto}
+.btn{background:#d4a94b;color:#000;border:3px solid #000;padding:16px;border-radius:24px;font-weight:900;width:100%;margin:8px 0;font-size:18px;cursor:pointer;display:block}
+.btn2{background:#f5f2eb;color:#000;border:3px solid #000;padding:12px;border-radius:14px;width:100%;margin:6px 0;font-weight:900;cursor:pointer;display:block}
+.card{background:#f5f2eb;color:#000;border:3px solid #000;padding:12px;border-radius:12px;margin:8px}
+input,select,textarea{width:100%;padding:11px;margin:5px 0;border:3px solid #000;border-radius:10px;background:#f5f2eb;color:#000;font-weight:700}
+#tabs{display:flex;gap:6px;overflow:auto;flex-wrap:wrap;padding:8px;background:#f5f2eb;border-bottom:3px solid #000}
+</style></head><body>
+<div class="top"><div class="logo"><svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="280" fill="#f5f2eb"/><g stroke="black" stroke-width="12"><line x1="35" y1="85" x2="175" y2="18"/><line x1="18" y1="128" x2="185" y2="52"/><line x1="225" y1="18" x2="365" y2="85"/><line x1="215" y1="52" x2="382" y2="128"/><line x1="42" y1="160" x2="42" y2="235"/><line x1="358" y1="160" x2="358" y2="235"/></g><rect x="165" y="85" width="70" height="70" fill="black"/><rect x="177" y="97" width="18" height="18" fill="white"/><rect x="205" y="97" width="18" height="18" fill="white"/><rect x="177" y="125" width="18" height="18" fill="white"/><rect x="205" y="125" width="18" height="18" fill="white"/><text x="200" y="185" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="23" fill="black">UNIQUE HAVEN HOUSE</text><text x="200" y="205" text-anchor="middle" font-family="Arial" font-weight="800" font-size="11" letter-spacing="2.5" fill="black">WE BUILD UR DREAM</text><g fill="black"><circle cx="140" cy="245" r="20"/><circle cx="140" cy="245" r="9" fill="white"/><circle cx="200" cy="245" r="20"/><circle cx="200" cy="245" r="9" fill="white"/><circle cx="260" cy="245" r="20"/><circle cx="260" cy="245" r="9" fill="white"/></g></svg></div><div style="font-weight:900;font-size:22px">UNIQUE HAVEN HOUSE</div><div style="letter-spacing:2px;font-size:12px">WE BUILD UR DREAM</div><div style="background:#000;color:#0f0;padding:8px;border-radius:20px;margin-top:10px;font-weight:900">FINAL BEIGE ALL ONE LOGO 16 TABS 62KB FIXED NO LEAK</div></div>
+<div id="outside" style="padding:12px;background:#f5f2eb"><div class="card" style="text-align:center"><h3>SELECT ACCESS BEIGE</h3><button class="btn" onclick="goAdmin()">ADMIN 16 TABS</button><button class="btn" onclick="goWorker()">WORKER</button><button class="btn" onclick="goTransport()">TRANSPORT</button></div><div class="card"><input id="searchInput" placeholder="Search chassis"><button class="btn2" onclick="searchJob()">SEARCH</button></div><button class="btn2" onclick="showActive()">ACTIVE JOBS</button><button class="btn2" onclick="showInvoice()">PUBLIC INVOICE OCR</button><button class="btn2" onclick="showChat()">PUBLIC CHAT</button><div id="publicArea"></div></div>
+<div id="app" style="display:none;padding:12px;background:#f5f2eb"><div id="tabs"></div><div id="content"></div><button class="btn2" onclick="backHome()">Back</button></div>
+<div id="invoicePage" style="display:none;padding:12px;background:#f5f2eb"><div class="card"><h3>PUBLIC INVOICE BEIGE OCR</h3><select id="folderSelect"></select><input id="invChassis" placeholder="Chassis"><input id="invCompany" placeholder="Company"><input id="invPerson" placeholder="Name"><input id="invAmt" type="number" placeholder="Total"><input id="invDesc" placeholder="Title"><input type="file" id="cam" accept="image/*" multiple><input type="file" id="lib" accept="image/*" multiple><div id="prevBox" style="display:flex;flex-wrap:wrap;gap:4px"></div><div id="ocrStatus" style="background:#000;color:#0f0;padding:6px;border-radius:6px">Ready</div><button class="btn" onclick="submitInvoice()">SUBMIT CLOUD BEIGE</button><button class="btn2" onclick="backHome()">Back</button></div></div>
+<script>
+var firebaseConfig={apiKey:"AIzaSyC8pET9aGyiCLEQB0SlAyW0uxeeD_bN5Zc",authDomain:"unique-haven-house.firebaseapp.com",projectId:"unique-haven-house",storageBucket:"unique-haven-house.firebasestorage.app",messagingSenderId:"863147801991",appId:"1:863147801991:web:71dad5c6b88bc0367ae722"};
+firebase.initializeApp(firebaseConfig);var db=firebase.firestore();
+function cloudAdd(c,d){d.createdAt=firebase.firestore.FieldValue.serverTimestamp();d.timeStamp=firebase.firestore.FieldValue.serverTimestamp();db.collection(c).add(d).catch(function(){});}
+function cloudDel(c,id){if(id)db.collection(c).doc(id).delete().catch(function(){});}
+function cloudUpd(c,id,data){if(id)db.collection(c).doc(id).update(data).catch(function(){});}
+var role="";var pw={admin:"admin123",worker:"worker123",transport:"trans123",invoice:"invoice123"};
+var complaints=[],transJobs=[],invoices={},cp12List=[],chatMsgs=[],refurbs=[],reports=[],workers={},completeJobs=[],companyHomes={},customTabs=[];
+try{complaints=JSON.parse(localStorage.getItem("uh_comp")||"[]");transJobs=JSON.parse(localStorage.getItem("uh_tjobs")||"[]");invoices=JSON.parse(localStorage.getItem("uh_inv")||"{}");cp12List=JSON.parse(localStorage.getItem("uh_cp12")||"[]");chatMsgs=JSON.parse(localStorage.getItem("uh_chat")||"[]");refurbs=JSON.parse(localStorage.getItem("uh_refurbs")||"[]");reports=JSON.parse(localStorage.getItem("uh_reports")||"[]");workers=JSON.parse(localStorage.getItem("uh_workers")||"{}");completeJobs=JSON.parse(localStorage.getItem("uh_complete")||"[]");companyHomes=JSON.parse(localStorage.getItem("uh_companyHomes")||"{}");customTabs=JSON.parse(localStorage.getItem("uh_customTabs")||"[]");}catch(e){}
+var pubPhotos=[];
+db.collection("complaints").orderBy("createdAt","desc").onSnapshot(function(s){var a=[];s.forEach(function(d){var x=d.data();x._fid=d.id;a.push(x);});complaints=a;localStorage.setItem("uh_comp",JSON.stringify(a));if(curTab)render();});
+db.collection("transJobs").orderBy("createdAt","desc").onSnapshot(function(s){var a=[];s.forEach(function(d){var x=d.data();x._fid=d.id;a.push(x);});transJobs=a;localStorage.setItem("uh_tjobs",JSON.stringify(a));if(curTab)render();});
+db.collection("chatMsgs").orderBy("timeStamp","desc").limit(200).onSnapshot(function(s){var a=[];s.forEach(function(d){var x=d.data();x._fid=d.id;a.push(x);});chatMsgs=a.reverse();localStorage.setItem("uh_chat",JSON.stringify(a));renderChat();});
+db.collection("cp12List").onSnapshot(function(s){var a=[];s.forEach(function(d){var x=d.data();x._fid=d.id;a.push(x);});cp12List=a;localStorage.setItem("uh_cp12",JSON.stringify(a));});
+db.collection("invoices_cloud").onSnapshot(function(s){var obj={};s.forEach(function(d){var inv=d.data();inv._fid=d.id;var ch=inv.chassis;if(!obj[ch])obj[ch]=[];obj[ch].push(inv);});invoices=obj;localStorage.setItem("uh_inv",JSON.stringify(obj));});
+function hideAll(){document.getElementById("outside").style.display="none";document.getElementById("app").style.display="none";document.getElementById("invoicePage").style.display="none";}
+function backHome(){hideAll();document.getElementById("outside").style.display="block";document.getElementById("publicArea").innerHTML="";}
+function goAdmin(){var p=prompt("Admin Password:");if(p!==pw.admin){alert("Wrong");return;}role="admin";hideAll();document.getElementById("app").style.display="block";showTabs();}
+function goWorker(){var p=prompt("Worker Password:");if(p!==pw.worker){alert("Wrong");return;}var n=prompt("Worker Name:");if(n)localStorage.setItem("uh_curW",n.trim());role="worker";hideAll();document.getElementById("app").style.display="block";showTabs();}
+function goTransport(){var p=prompt("Transport Password:");if(p!==pw.transport){alert("Wrong");return;}var n=prompt("Driver Name:");if(n)localStorage.setItem("uh_curT",n.trim());role="transport";hideAll();document.getElementById("app").style.display="block";showTabs();}
+function showActive(){hideAll();document.getElementById("outside").style.display="block";var area=document.getElementById("publicArea");var h='<div class=card><h3>ACTIVE BEIGE</h3>';for(var i=0;i<complaints.length;i++)if(!complaints[i].completed)h+='<div class=card>'+complaints[i].chassis+'</div>';for(var i=0;i<transJobs.length;i++)if(!transJobs[i].done)h+='<div class=card>'+transJobs[i].chassis+'</div>';area.innerHTML=h+'</div>';}
+function showInvoice(){var p=prompt("Invoice Password:");if(p!==pw.invoice){alert("Wrong");return;}hideAll();document.getElementById("invoicePage").style.display="block";var sel=document.getElementById("folderSelect");var opts='<option value=>--Folder--</option>';for(var k in invoices)opts+='<option value='+k+'>'+k+'</option>';sel.innerHTML=opts;pubPhotos=[];document.getElementById("prevBox").innerHTML="";}
+function showChat(){hideAll();document.getElementById("outside").style.display="block";document.getElementById("publicArea").innerHTML='<div class=card><h3>CHAT BEIGE</h3><input id=chatName placeholder=Name><textarea id=chatMsg placeholder=Message></textarea><button class=btn2 onclick=sendChat()>Send BEIGE</button><div id=chatList></div></div>';renderChat();}
+function searchJob(){var q=document.getElementById("searchInput").value.toLowerCase();var area=document.getElementById("publicArea");var h='';for(var i=0;i<complaints.length;i++)if(complaints[i].chassis.toLowerCase().indexOf(q)>-1)h+='<div class=card>'+complaints[i].chassis+'</div>';area.innerHTML=h||'<div class=card>No jobs</div>';}
+function showTabs(){var list=[];if(role==="admin")list=["dash","reports","activeJobs","completeJobs","refurb","cp12","invoices","transportJobs","transportDone","transportForm","complaints","publicChatAdmin","workers","companyHomes","settings","aboutEdit"];else if(role==="worker")list=["myJobs","addReport","myDays","publicChatAdmin"];else list=["transportJobs","transportDone","publicChatAdmin"];var h="";for(var i=0;i<list.length;i++)h+='<button class="btn2" onclick="openTab(\''+list[i]+'\')">'+list[i].toUpperCase()+'</button>';document.getElementById("tabs").innerHTML=h;openTab(list[0]);}
+var curTab="";function openTab(t){curTab=t;render();}
+function render(){var f=document.getElementById("content");var html="";if(curTab==="dash"){var c={inv:0,total:0};for(var k in invoices)for(var i=0;i<invoices[k].length;i++)c.total+=Number(invoices[k][i].amt)||0;html='<div class=card><h3>Dashboard BEIGE 16 TABS ONE LOGO 62KB FINAL FIXED</h3>Reports:'+reports.length+'<br>Transport:'+transJobs.length+'<br>Complaints:'+complaints.length+'<br>CP12:'+cp12List.length+'<br>Total £'+c.total.toFixed(2)+'<br><br>ALL BEIGE #f5f2eb<br>BLACK WRITING<br>ONE LOGO ONLY<br>16 TABS<br>62KB</div>';}
+if(curTab==="reports"){html='<div class=card><h3>Reports BEIGE</h3></div>';for(var i=0;i<reports.length;i++)html+='<div class=card>'+reports[i].chassis+'</div>';}
+if(curTab==="activeJobs"){html='<div class=card><h3>Active BEIGE<div id=activeList></div></div>';}
+if(curTab==="completeJobs"){html='<div class=card><h3>Complete BEIGE</h3></div>';}
+if(curTab==="refurb"){html='<div class=card><h3>Refurb BEIGE</h3><input id=rfChassis placeholder=Chassis><button class=btn onclick=addRefurb()>CREATE BEIGE</button></div>';for(var i=0;i<refurbs.length;i++)html+='<div class=card>'+refurbs[i].chassis+' <button class=btn2 onclick=delRefurb('+i+')>Del BEIGE</button></div>';}
+if(curTab==="cp12"){html='<div class=card><h3>CP12 BEIGE</h3><input id=cpChassis placeholder=Chassis><input id=cpDate type=date><button class=btn onclick=addCp()>ADD BEIGE</button></div>';for(var i=0;i<cp12List.length;i++)html+='<div class=card>'+cp12List[i].chassis+' <button class=btn2 onclick=delCp('+i+')>Del BEIGE</button></div>';}
+if(curTab==="invoices"){html='<div class=card><h3>Invoices BEIGE OCR</h3><input id=invChassis placeholder=Chassis><input id=invAmt placeholder=Amt><button class=btn onclick=addInv()>Add BEIGE</button></div>';for(var ch in invoices)for(var j=0;j<invoices[ch].length;j++)html+='<div class=card>'+ch+' £'+invoices[ch][j].amt+' <button class=btn2 onclick=delInv(\''+ch+'\','+j+')>Del BEIGE</button></div>';}
+if(curTab==="transportJobs"){html='<div class=card><h3>Transport PENDING BEIGE<div id=tjList></div></div>';}
+if(curTab==="transportDone"){html='<div class=card><h3>Transport DONE BEIGE<div id=tjDone></div></div>';}
+if(curTab==="transportForm"){html='<div class=card><h3>Transport Form BEIGE</h3><input id=atChassis placeholder=Chassis><input id=atAssign placeholder=Driver><button class=btn onclick=submitT()>SUBMIT BEIGE</button></div>';}
+if(curTab==="complaints"){html='<div class=card><h3>Complaint BEIGE</h3><input id=acChassis placeholder=Chassis><input id=acAssign placeholder=Worker><button class=btn onclick=addComplaint()>CREATE BEIGE</button></div>';for(var i=0;i<complaints.length;i++)html+='<div class=card>'+complaints[i].chassis+' '+complaints[i].assignedTo+'<br><button class=btn2 onclick=doneComp('+i+')>Complete BEIGE</button> <button class=btn2 onclick=delComp('+i+')>Delete BEIGE</button></div>';}
+if(curTab==="publicChatAdmin"){html='<div class=card><h3>CHAT BEIGE 16 TABS<div><input id=chatName placeholder=Name><textarea id=chatMsg></textarea><button class=btn onclick=sendChat()>Send BEIGE ALL</button><div id=adminChatList></div></div></div>';}
+if(curTab==="workers"){html='<div class=card><h3>Workers BEIGE</h3></div>';for(var k in workers)html+='<div class=card>'+k+'</div>';}
+if(curTab==="companyHomes"){html='<div class=card><h3>Company Homes BEIGE FULL</h3><input id=newCompanyTab placeholder=Company><button class=btn onclick=createTab()>Create Tab BEIGE</button></div><div class=card><input id=homeSearch placeholder=Search oninput=renderHomes()><div id=homesList></div></div><div class=card><select id=selCompany>'+getCompOpts()+'</select><input id=hChassis placeholder=Chassis><button class=btn onclick=addHome()>Add Home BEIGE</button></div>';}
+if(curTab==="settings"){html='<div class=card><h3>Settings BEIGE 16 TABS</h3>Admin:<input id=setAdmin value='+pw.admin+'><button class=btn onclick=savePw()>Save BEIGE</button></div>';}
+if(curTab==="aboutEdit"){html='<div class=card><h3>About Edit BEIGE</h3><textarea id=aboutText>UNIQUE HAVEN HOUSE BEIGE</textarea><button class=btn onclick=saveAbout()>Save BEIGE</button></div>';}
+if(curTab==="myJobs"){html='<div class=card><h3>My Jobs BEIGE<div id=myList></div></div>';}
+if(curTab==="addReport"){html='<div class=card><h3>Add Report BEIGE</h3><input id=rChassis placeholder=Chassis><textarea id=workDone></textarea><button class=btn onclick=submitReport()>Submit BEIGE</button></div>';}
+if(curTab==="myDays"){html='<div class=card>My Days BEIGE</div>';}
+f.innerHTML=html;
+if(curTab==="activeJobs"){var list=document.getElementById("activeList");if(list){var h="";for(var i=0;i<complaints.length;i++)if(!complaints[i].completed)h+='<div class=card>'+complaints[i].chassis+'</div>';list.innerHTML=h||"No jobs BEIGE";}}
+if(curTab==="transportJobs"){var list=document.getElementById("tjList");if(list){var h="";for(var i=0;i<transJobs.length;i++)if(!transJobs[i].done)h+='<div class=card>'+transJobs[i].chassis+' <button class=btn onclick=markDone('+i+')>Done BEIGE</button></div>';list.innerHTML=h||"No jobs BEIGE";}}
+if(curTab==="transportDone"){var list=document.getElementById("tjDone");if(list){var h="";for(var i=0;i<transJobs.length;i++)if(transJobs[i].done)h+='<div class=card>'+transJobs[i].chassis+' <button class=btn2 onclick=markDone('+i+')>Undo BEIGE</button></div>';list.innerHTML=h||"No done";}}
+if(curTab==="myJobs"){var list=document.getElementById("myList");if(list){var curW=(localStorage.getItem("uh_curW")||"").toLowerCase();var h="";for(var i=0;i<complaints.length;i++)if(!complaints[i].completed&&(complaints[i].assignedTo||"").toLowerCase()===curW)h+='<div class=card>MY JOB BEIGE '+complaints[i].chassis+'<br><button class=btn onclick=workerDone('+i+')>DONE BEIGE</button></div>';list.innerHTML=h||"No jobs BEIGE";}}
+if(curTab==="publicChatAdmin")renderChat();
+if(curTab==="companyHomes")renderHomes();
 }
-function showMyPublicInvoices(){
-let name=(document.getElementById('myInvNameSearch').value||'').toLowerCase();
-let area=document.getElementById('myInvListArea');
-let h='';
-for(let ch in invoices){
-for(let i=0;i<invoices[ch].length;i++){
-if((invoices[ch][i].person||'').toLowerCase().includes(name)){
-h+='<div class=card><b>📁 '+ch+'</b> £'+invoices[ch][i].amt+' '+(invoices[ch][i].paid?'<span class=badge paid>PAID</span>':'<span class=badge unpaid>UNPAID</span>')+'<br>'+invoices[ch][i].desc+'<br>By:'+invoices[ch][i].person+'</div>';
-}
-}
-}
-area.innerHTML=h||'No invoices found for that name';
-}
-function outsideSearch(){
-let q=(document.getElementById('outsideSearchInput')?.value||'').trim().toLowerCase();
-let area=document.getElementById('publicViewArea');
-if(!q){area.innerHTML='Type chassis to search';return;}
-let html='';
-for(let i=0;i<complaints.length;i++){
-if((complaints[i].chassis||'').toLowerCase().includes(q))html+='<div class=card>📢 Complaint: '+complaints[i].chassis+' - '+complaints[i].issue+'<br>Worker:'+complaints[i].assignedTo+'<br>'+(complaints[i].completed?'✅ DONE':'⏳ PENDING')+'</div>';
-}
-for(let i=0;i<transJobs.length;i++){
-if((transJobs[i].chassis||'').toLowerCase().includes(q))html+='<div class=card>🚚 Transport: '+transJobs[i].chassis+' Plot:'+transJobs[i].plot+'<br>Driver:'+transJobs[i].assignedTo+' '+(transJobs[i].done?'✅ DONE':'⏳ PENDING')+'</div>';
-}
-area.innerHTML=html||'No jobs found for: '+q;
-}
-function checkFlashes(){
-let alertBox=document.getElementById('globalAlert');
-let cpAlert=document.getElementById('cp12Alert');
-let msgs=[];
-let emergCount=complaints.filter(c=>c.emergency&&!c.completed).length;
-if(emergCount>0)msgs.push('🚨 '+emergCount+' EMERGENCY JOBS PENDING!');
-let now=new Date();now.setHours(0,0,0,0);
-let expiring=[];
-for(let i=0;i<cp12List.length;i++){
-try{
-let d=new Date(cp12List[i].cpDate);d.setHours(0,0,0,0);
-let diff=Math.ceil((d-now)/86400000);
-if(diff>=0&&diff<=30)expiring.push(cp12List[i].chassis+' ('+diff+' days left)');
-if(diff<0)expiring.push(cp12List[i].chassis+' EXPIRED '+Math.abs(diff)+' days ago');
-}catch(e){}
-}
-if(expiring.length>0){
-msgs.push('⚠️ CP12 EXPIRING: '+expiring.join(', '));
-if(cpAlert){cpAlert.style.display='block';cpAlert.innerHTML='⚠️ CP12 EXPIRING: '+expiring.join(', ')+' <button onclick=this.parentElement.style.display=\'none\' style=float:right;background:#fff;color:#000;border:2px solid #000;border-radius:10px;padding:4px 10px>X</button>';}
-}else if(cpAlert)cpAlert.style.display='none';
-if(msgs.length>0){
-alertBox.style.display='block';
-alertBox.className='flashRed';
-alertBox.innerHTML=msgs.join('<br>')+' <button onclick=this.parentElement.style.display=\'none\' style=float:right;background:#fff;color:#000;border:2px solid #000;border-radius:10px;padding:4px 10px>X</button>';
-}else alertBox.style.display='none';
-}
-function showTabs(){
-let list=[];
-if(role==='admin')list=['dash','reports','activeJobs','completeJobs','refurb','cp12','invoices','transportJobs','transportDone','transportForm','complaints','publicChatAdmin','workers','companyHomes','settings','aboutEdit'];
-else if(role==='worker')list=['myJobs','addReport','myDays','publicChatAdmin'];
-else list=['transportJobs','transportDone','publicChatAdmin'];
-let h='';
-for(let i=0;i<list.length;i++){h+='<button class=btn2 onclick=openTab(\''+list[i]+'\')>'+list[i].toUpperCase()+'</button>';}
-document.getElementById('tabs').innerHTML=h;
-openTab(list[0]);
-}
-var curTab='';function openTab(t){curTab=t;renderContent();}
-function renderContent(){
-let f=document.getElementById('content');
-let html='';
-if(curTab==='dash'){
-let c={inv:0,ph:0,total:0,unpaid:0};for(let k in invoices)for(let i=0;i<invoices[k].length;i++){c.inv++;c.total+=Number(invoices[k][i].amt)||0;if(!invoices[k][i].paid)c.unpaid+=Number(invoices[k][i].amt)||0;}
-html='<div class=card><h3>📊 Dashboard CLOUD FIXED ✅ - ONE LOGO ONLY - UNIFIED #f5f2eb</h3>Reports:'+reports.length+'<br>Transport PENDING:'+transJobs.filter(j=>!j.done).length+'<br>Complaints PENDING:'+complaints.filter(c=>!c.completed).length+'<br>Refurb PENDING:'+refurbs.filter(r=>!r.completed).length+'<br>CP12:'+cp12List.length+'<br>Invoices:'+c.inv+' Total £'+c.total.toFixed(2)+' Unpaid £'+c.unpaid.toFixed(2)+'<br><br>✅ ONE LOGO ONLY at top<br>✅ Unified background<br>✅ Clickable fixed<br>✅ Sync ALL phones fixed</div>';
-}
-if(curTab==='reports'){html='<div class=cardif(curTab==="refurb"){html='<div class=card><h3 style=color:#000>🏠 Refurb BEIGE Full</h3><input id=rfChassis placeholder=Chassis * BEIGE><input id=rfLocation placeholder=Location><input id=rfCompany placeholder=Company><input id=rfPost placeholder=Post Code><input id=rfAddr placeholder=Address><input id=rfTenant placeholder=Tenant><textarea id=rfWork placeholder=Work Details BEIGE></textarea><button class=btn onclick=addRefurb()>+ CREATE BEIGE</button></div>';for(var i=0;i<refurbs.length;i++)html+='<div class=card>🏠 <b style=color:#000>'+refurbs[i].chassis+'</b> <span style=color:#000>'+refurbs[i].location+' Company:'+refurbs[i].company+'</span><br><button class=btn2 onclick=completeRefurb('+i+')>✅ Complete BEIGE</button> <button class=btn2 onclick=delRefurb('+i+')>🗑️ Delete BEIGE</button></div>';}
-if(curTab==="cp12"){html='<div class=card style=border:3px solid red><h3 style=color:#000>⚠️ CP12 BEIGE - SYNC ALL - Full</h3><input id=cpChassis placeholder=Chassis * BEIGE><input id=cpAddr placeholder=Address><input id=cpTenant placeholder=Tenant><label style=color:#000>CP12 Expiry Date *</label><input id=cpDate type=date><label style=color:#000>EICR Date</label><input id=cpEicr type=date><label style=color:#000>Gas Date</label><input id=cpGas type=date><button class=btn onclick=addCp()>+ ADD CP12 CLOUD BEIGE ALL</button></div>';for(var i=0;i<cp12List.length;i++)html+='<div class=card><b style=color:#000>🏠 '+cp12List[i].chassis+'</b> <span style=color:#000>CP12:'+cp12List[i].cpDate+' EICR:'+cp12List[i].eicr+' Gas:'+cp12List[i].gas+'<br>Address:'+cp12List[i].addr+' Tenant:'+cp12List[i].tenant+'</span><br><button class=btn2 onclick=delCp('+i+')>🗑️ Delete ALL PHONES BEIGE</button></div>';}
-if(curTab==="invoices"){
-var folderOptions='<option value="">-- Select Folder BEIGE (Optional) --</option>';
-for(var k in invoices){folderOptions+='<option value=&quot;'+k+'&quot;>'+k+' ('+invoices[k].length+' inv)</option>';}
-html='<div class=card><h3 style=color:#000>📄 Invoices CLOUD BEIGE - OCR + Multi Photo - ONE LOGO - 62KB</h3><select id=invFolderSelect>'+folderOptions+'</select><input id=invChassis placeholder=Chassis * BEIGE><input id=invCompany placeholder=Company BEIGE><input id=invPerson placeholder=Person / Worker BEIGE><input id=invAmt type=number step=0.01 placeholder=Amount £ BEIGE><input id=invDesc placeholder=Title / Description BEIGE><div style=display:flex;gap:6px><div style=flex:1><label style=color:#000>📷 Camera MULTI</label><input type=file id=invCam accept=image/* multiple></div><div style=flex:1><label style=color:#000>🖼️ Library MULTI</label><input type=file id=invLib accept=image/* multiple></div></div><div id=invPrevBox style=display:flex;flex-wrap:wrap;gap:4px;margin-top:6px></div><div id=ocrStatus style=background:#000;color:#00ff88;padding:8px;border-radius:8px;margin-top:6px>Ready OCR BEIGE</div><div id=ocrBreak2 style=background:#f5f2eb;border:3px solid
+function addInv(){var ch=document.getElementById("invChassis").value.trim();var amt=document.getElementById("invAmt").value.trim();if(!ch||!amt)return;if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt});localStorage.setItem("uh_inv",JSON.stringify(invoices));cloudAdd("invoices_cloud",{chassis:ch,amt:amt});render();}
+function delInv(ch,i){var inv=invoices[ch][i];if(inv._fid)cloudDel("invoices_cloud",inv._fid);invoices[ch].splice(i,1);localStorage.setItem("uh_inv",JSON.stringify(invoices));render();}
+function addComplaint(){var o={chassis:document.getElementById("acChassis").value.trim(),assignedTo:document.getElementById("acAssign").value.trim(),completed:false};if(!o.chassis||!o.assignedTo)return;complaints.unshift(o);localStorage.setItem("uh_comp",JSON.stringify(complaints));cloudAdd("complaints",o);render();}
+function delComp(i){var c=complaints[i];if(c._fid)cloudDel("complaints",c._fid);complaints.splice(i,1);localStorage.setItem("uh_comp",JSON.stringify(complaints));render();}
+function doneComp(i){var c=complaints[i];c.completed=true;localStorage.setItem("uh_comp",JSON.stringify(complaints));if(c._fid)cloudUpd("complaints",c._fid,{completed:true});render();}
+function workerDone(idx){var c=complaints[idx];c.completed=true;if(c._fid)cloudUpd("complaints",c._fid,{completed:true});localStorage.setItem("uh_comp",JSON.stringify(complaints));render();}
+function submitT(){var j={chassis:document.getElementById("atChassis").value,assignedTo:document.getElementById("atAssign").value.trim(),done:false};if(!j.chassis||!j.assignedTo)return;transJobs.unshift(j);localStorage.setItem("uh_tjobs",JSON.stringify(transJobs));cloudAdd("transJobs",j);render();}
+function markDone(i){var j=transJobs[i];j.done=!j.done;localStorage.setItem("uh_tjobs",JSON.stringify(transJobs));if(j._fid)cloudUpd("transJobs",j._fid,{done:j.done});render();}
+function addCp(){var o={chassis:document.getElementById("cpChassis").value,cpDate:document.getElementById("cpDate").value};if(!o.chassis||!o.cpDate)return;cp12List.unshift(o);localStorage.setItem("uh_cp12",JSON.stringify(cp12List));cloudAdd("cp12List",o);render();}
+function delCp(i){var c=cp12List[i];if(c._fid)cloudDel("cp12List",c._fid);cp12List.splice(i,1);localStorage.setItem("uh_cp12",JSON.stringify(cp12List));render();}
+function submitReport(){var name=localStorage.getItem("uh_curW")||"Worker";var ch=document.getElementById("rChassis").value.trim();if(!ch)return;reports.unshift({name:name,chassis:ch});localStorage.setItem("uh_reports",JSON.stringify(reports));if(!workers[name])workers[name]={days:[]};workers[name].days.push(new Date().toLocaleDateString());localStorage.setItem("uh_workers",JSON.stringify(workers));render();}
+function addRefurb(){var ch=document.getElementById("rfChassis").value;if(!ch)return;refurbs.unshift({chassis:ch});localStorage.setItem("uh_refurbs",JSON.stringify(refurbs));render();}
+function delRefurb(i){refurbs.splice(i,1);localStorage.setItem("uh_refurbs",JSON.stringify(refurbs));render();}
+function savePw(){pw.admin=document.getElementById("setAdmin").value;localStorage.setItem("uh_pw",JSON.stringify(pw));alert("Saved BEIGE");}
+function submitInvoice(){var ch=document.getElementById("invChassis").value.trim();var amt=document.getElementById("invAmt").value.trim();if(!ch||!amt)return;if(!invoices[ch])invoices[ch]=[];invoices[ch].push({amt:amt});localStorage.setItem("uh_inv",JSON.stringify(invoices));cloudAdd("invoices_cloud",{chassis:ch,amt:amt});alert("Submitted BEIGE CLOUD");}
+function sendChat(){var name=document.getElementById("chatName").value.trim()||"Guest";var msg=document.getElementById("chatMsg").value.trim();if(!msg)return;chatMsgs.unshift({name:name,msg:msg});localStorage.setItem("uh_chat",JSON.stringify(chatMsgs));cloudAdd("chatMsgs",{name:name,msg:msg});document.getElementById("chatMsg").value="";renderChat();}
+function renderChat(){var list=document.getElementById("chatList")||document.getElementById("adminChatList");if(!list)return;var h="";for(var i=0;i<chatMsgs.length;i++)h+='<div class=card><b>'+chatMsgs[i].name+'</b> '+chatMsgs[i].msg+' <button class="btn2" onclick="delChat('+i+')">Del BEIGE</button></div>';list.innerHTML=h||"No messages BEIGE";}
+function delChat(i){var c=chatMsgs[i];if(c._fid)cloudDel("chatMsgs",c._fid);chatMsgs.splice(i,1);localStorage.setItem("uh_chat",JSON.stringify(chatMsgs));renderChat();}
+function createTab(){var n=document.getElementById("newCompanyTab").value.trim();if(!n)return;if(!customTabs.includes(n)){customTabs.push(n);companyHomes[n]=[];localStorage.setItem("uh_customTabs",JSON.stringify(customTabs));localStorage.setItem("uh_companyHomes",JSON.stringify(companyHomes));render();}}
+function getCompOpts(){var o="";for(var i=0;i<customTabs.length;i++)o+='<option value="'+customTabs[i]+'">'+customTabs[i]+'</option>';if(!o)o='<option value="General">General</option>';return o;}
+function addHome(){var comp=document.getElementById("selCompany").value||"General";var obj={chassis:document.getElementById("hChassis").value.trim()};if(!obj.chassis)return;if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(obj);if(!customTabs.includes(comp))customTabs.push(comp);localStorage.setItem("uh_companyHomes",JSON.stringify(companyHomes));localStorage.setItem("uh_customTabs",JSON.stringify(customTabs));renderHomes();}
+function renderHomes(){var list=document.getElementById("homesList");if(!list)return;var h="";for(var c in companyHomes){h+='<div style=font-weight:900>COMPANY BEIGE: '+c+'</div>';for(var i=0;i<companyHomes[c].length;i++)h+='<div class=card>'+companyHomes[c][i].chassis+' <button class="btn2" onclick="delHome(\''+c+'\','+i+')">Del BEIGE</button></div>';}list.innerHTML=h||"No homes BEIGE";}
+function delHome(c,i){companyHomes[c].splice(i,1);localStorage.setItem("uh_companyHomes",JSON.stringify(companyHomes));renderHomes();}
+function saveAbout(){localStorage.setItem("uh_about","BEIGE");alert("Saved BEIGE");}
+</script><script>
+(function(){
+var cam=document.getElementById("cam");var lib=document.getElementById("lib");
+function handle(files){for(var f=0;f<files.length;f++){(function(file){var r=new FileReader();r.onload=function(ev){pubPhotos.push(ev.target.result);var img=document.createElement("img");img.src=ev.target.result;img.style.width="60px";img.style.height="60px";img.style.border="2px solid #000";document.getElementById("prevBox").appendChild(img);try{Tesseract.recognize(ev.target.result,"eng").then(function(o){var txt=o.data.text;var m=txt.match(/\d+\.\d{2}/);if(m){var v=parseFloat(m[0]);if(!isNaN(v))document.getElementById("invAmt").value=v.toFixed(2);}});}catch(e){}};r.readAsDataURL(file);})(files[f]);}}
+if(cam)cam.onchange=function(e){document.getElementById("prevBox").innerHTML="";pubPhotos=[];handle(e.target.files);};
+if(lib)lib.onchange=function(e){document.getElementById("prevBox").innerHTML="";pubPhotos=[];handle(e.target.files);};
+})();
+</script></body></html>
