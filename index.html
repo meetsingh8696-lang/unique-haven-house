@@ -1,83 +1,30 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>UNIQUE HAVEN HOUSE</title>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#fff;color:#5d4037}
-.top-header{background:linear-gradient(180deg,#c9a57a 0%,#8c6240 40%,#6e4024 100%);border-radius:0 0 22px 22px;padding:14px 14px 14px 14px;text-align:center;border:2px solid #5d4037;border-top:none;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
-.logo-img{width:145px;height:auto;margin:0 auto 6px auto;display:block}
-.top-header h1{font-size:19px;font-weight:900;color:#fff;letter-spacing:0.8px;margin-top:8px;text-shadow:1px 1px 3px rgba(0,0,0,0.6)}
-.top-header p{font-size:11px;color:#ffecb3;font-weight:700;letter-spacing:2px;margin-top:4px}
-.sync-btn{background:linear-gradient(135deg,#0a3d0a,#123d12);color:#00ff88;border:2px solid #00ff66;border-radius:22px;padding:10px 14px;font-weight:800;font-size:13px;margin:12px auto 4px auto;width:94%;display:flex;align-items:center;justify-content:center;gap:6px}
-#outside{background:#fff;padding:0 0 20px 0;min-height:100vh}
-.select-card{background:#fff;padding:18px 14px;border-radius:14px;margin:16px 12px 10px 12px}
-.select-card h2{text-align:center;font-size:17px;font-weight:900;color:#3e2723;margin-bottom:16px}
-.access-btn{width:100%;padding:15px;background:#7a4a2e;color:#fff;border:none;border-radius:28px;font-weight:800;font-size:13px;margin:7px 0;cursor:pointer}
-.search-card{background:#fdf6e3;border:2px solid #7a4a2e;border-radius:16px;padding:16px;margin:14px 12px}
-.search-card h3{text-align:center;color:#5d4037;font-size:15px;font-weight:900;margin-bottom:14px}
-.search-card input{width:100%;padding:13px;border:2px solid #e0d5c7;border-radius:12px;font-size:14px;background:#fff;margin:6px 0}
-.search-btn{width:100%;padding:13px;background:#7a4a2e;color:#fff;border:none;border-radius:24px;font-weight:800;font-size:13px;margin-top:10px;cursor:pointer}
-.public-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 12px}
-.public-btn{background:#fff;border:2px solid #7a4a2e;border-radius:14px;padding:12px 6px;font-size:10px;font-weight:700;color:#5d4037;text-align:center;cursor:pointer;min-height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
-.btn{padding:11px 16px;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px;background:#7a4a2e;color:#fff;margin:3px}
-.btn2{padding:9px 13px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:12px;background:#fff;color:#5d4037;border:2px solid #7a4a2e;margin:2px}
-.btn-green{padding:9px 13px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:12px;background:#00c853;color:#fff;margin:2px}
-.card{background:#fff;border-radius:14px;padding:13px;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:1px solid #d7ccc8;color:#5d4037}
-.folder{background:#fdf6e3;border:2px solid #7a4a2e;border-radius:12px;padding:10px;margin:8px 0}
-.badge{padding:4px 9px;border-radius:12px;font-size:11px;font-weight:800;color:#fff}
-.paid{background:#00c853}.unpaid{background:#ff4444}
-.totalBox{background:linear-gradient(135deg,#7a4a2e,#5d4037);color:#fff;padding:13px;border-radius:12px;font-weight:900;margin:10px 0;text-align:center;font-size:16px}
-input,textarea,select{width:100%;padding:11px;margin:6px 0;border:2px solid #a1887f;border-radius:10px;font-size:14px;background:#fff;color:#5d4037}
-#app{display:none;background:#fff8ec;min-height:100vh}
-.tabs{background:#efebe9;padding:10px;display:flex;flex-wrap:wrap;gap:5px;border-bottom:3px solid #7a4a2e;position:sticky;top:0;z-index:99}
-#content{padding:12px;min-height:70vh;background:#fff8ec}
-#successToast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#00c853;color:#fff;padding:13px 24px;border-radius:25px;font-weight:800;display:none;z-index:9999}
-#cp12Alert{background:#ff4444;color:#fff;padding:10px;border-radius:10px;margin:8px 0;display:none;font-weight:800}
-.emergency{border:3px solid red!important;background:#ffebee!important}
-.github{font-size:12px;color:#5d4037;text-align:center;margin:12px 10px;background:#f5f5f5;padding:8px;border-radius:20px;border:1px solid #e0d5c7}
-</style></head><body>
-<div id="outside">
-<div class="top-header">
-<img src="logo.png" class="logo-img" alt="UNIQUE HAVEN HOUSE">
-<div class="sync-btn">☁️ Cloud SYNC ON</div>
-</div>
-<div class="select-card"><h2>SELECT ACCESS</h2>
-<button class="access-btn" onclick="goAdmin()">ADMIN</button>
-<button class="access-btn" onclick="goWorker()">WORKER</button>
-<button class="access-btn" onclick="goTransport()">TRANSPORT</button>
-</div>
-<div style="height:1px;background:#bcaaa4;margin:14px 12px"></div>
-<div class="search-card"><h3>🔍 SEARCH ANY JOB</h3><input id="outsideSearchInput" placeholder="Enter Chassis No..."><button class="search-btn" onclick="outsideSearch()">SEARCH BY CHASSIS</button></div>
-<div class="public-grid">
-<div class="public-btn" onclick="openPublicActive()">👀 ACTIVE JOBS - PUBLIC</div>
-<div class="public-btn" onclick="openPublicTransport()">🚚 TRANSPORT JOBS - PUBLIC</div>
-<div class="public-btn" onclick="openPublicRefurb()">🏠 REFURB HOMES - PUBLIC</div>
-<div class="public-btn" onclick="openPublicInvoice()">📄 PUBLIC INVOICE</div>
-<div class="public-btn" onclick="openPublicChat()">💬 PUBLIC CHAT</div>
-<div class="public-btn" onclick="askNotify()">🔔 Enable Notifications</div>
-<div class="public-btn" onclick="showNotifyFix()">❗ Fix Notification</div>
-<div class="public-btn" onclick="openAbout()">ℹ️ ABOUT US</div>
-</div>
-<div class="search-card" style="border:3px solid #d4a94b;margin-top:16px"><h3 style="text-align:center">📄 PUBLIC INVOICE PORTAL</h3>
-<select id="pubInvFolderSelect"><option value="">-- Select Existing Folder --</option></select>
-<input id="pubInvChassis" placeholder="Chassis No / Folder *"><input id="pubInvCompany" placeholder="Company *"><input id="pubInvPerson" placeholder="Person *"><input id="pubInvAmt" type="number" step="0.01" placeholder="Amount £ *"><input id="pubInvDesc" placeholder="Title">
-<div style="display:flex;gap:8px"><div style="flex:1"><label style="font-size:11px">📷 Camera</label><input type="file" id="pubInvCam" accept="image/*" capture="environment" multiple></div><div style="flex:1"><label style="font-size:11px">🖼️ Library</label><input type="file" id="pubInvLib" accept="image/*" multiple></div></div>
-<div id="pubInvPrevBox" style="display:flex;flex-wrap:wrap;gap:4px;min-height:32px;border:2px dashed #7a4a2e;padding:6px;border-radius:12px;background:#fff;margin-top:8px"></div>
-<div id="pubOcrStatus" style="font-size:12px;font-weight:700"></div><div id="pubOcrBreakdown" style="font-size:12px;background:#fff8e1;padding:6px;border-radius:8px;margin-top:4px"></div>
-<button class="btn" style="width:100%;margin-top:10px" onclick="submitPublicInvoice()">+ SUBMIT INVOICE</button>
-<hr style="margin:12px 0"><h4>🔍 My Invoices</h4><div style="display:flex;gap:6px"><input id="myInvNameSearch" placeholder="Your Name" style="flex:1"><button class="btn2" onclick="showMyPublicInvoices()">VIEW</button></div><div id="myInvListArea"></div>
-</div>
-<div id="publicViewArea" style="padding:10px"></div>
-<div class="github">meetsingh8696-lang.github.io</div>
-</div>
-<div id="pageAbout" style="display:none;padding:12px;background:#fff"><button class="btn2" onclick="backHome()">⬅️ Back</button><div id="aboutView" class="card"></div></div>
-<div id="pagePublicInvoice" style="display:none;padding:12px"><button class="btn2" onclick="backHome()">⬅️ Back</button><div class="card"><h3>Public Invoice</h3></div></div>
-<div id="app">
-<div style="background:#7a4a2e;padding:12px;display:flex;justify-content:space-between;align-items:center"><div style="display:flex;align-items:center;gap:8px"><img src="logo.png" style="width:36px;height:auto;background:#fff;border-radius:8px;padding:2px"><div style="color:#fff;font-weight:900" id="uInfo">ADMIN</div></div><button class="btn2" onclick="backHome()">🏠 HOME</button></div>
-<div id="cp12Alert"></div><div class="tabs" id="tabs"></div><div id="content"></div>
-<div id="editHomeBox" style="display:none;position:fixed;top:10%;left:5%;right:5%;background:#fff;padding:16px;border-radius:14px;z-index:999;border:3px solid #7a4a2e;max-height:80vh;overflow:auto"></div>
-</div>
+<!DOCTYPE html><html><head><link rel="manifest" href="./manifest.json"><meta name="theme-color" content="#8b5a2b"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIQUE HAVEN HOUSE</title><script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><style>
+body{background:#f5f2eb;color:#3e2723;font-family:Arial;margin:0;padding:8px;padding-bottom:700px}
+.hd{background:#8b5a2b;border:2px solid #d4a94b;border-radius:16px;padding:12px;text-align:center}.hd h1{color:#fff;margin:6px 0 0;font-size:22px}
+.btn{background:#8b5a2b;color:#fff;border:none;padding:12px 18px;border-radius:20px;font-weight:bold;margin:5px;cursor:pointer;width:92%}
+.btn2{background:#fff;color:#8b5a2b;border:1px solid #8b5a2b;padding:10px 14px;border-radius:16px;margin:4px;cursor:pointer}
+.btn-green{background:#00c851;color:#fff;border:none;padding:10px 14px;border-radius:16px;margin:4px;cursor:pointer;font-weight:bold}
+.card{background:#fff;border:1px solid #d7ccc8;padding:12px;border-radius:12px;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;background:#fff;color:#3e2723;border:1px solid #d7ccc8;box-sizing:border-box}
+.badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:bold}.paid{background:green;color:#fff}.unpaid{background:#c00;color:#fff}
+.folder{background:#fff8e1;border:1px solid #d4a94b;padding:10px;border-radius:10px;margin:8px 0}
+.totalBox{background:#8b5a2b;color:#fff;padding:10px;border-radius:10px;font-weight:bold;text-align:center;margin:8px 0}
+.flashRed{background:#ffebee;color:#c62828;border:3px solid red;animation:fl 0.8s infinite;padding:12px;border-radius:10px;font-size:16px;font-weight:bold;text-align:center}
+@keyframes fl{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+.emergency{border:2px solid red;background:#ffebee}
+#globalAlert{display:none;padding:12px;text-align:center;font-weight:bold;border-radius:10px;margin-bottom:8px}
+#cp12Alert{display:none;margin:8px;padding:8px;text-align:center;font-weight:bold;border-radius:12px;font-size:12px;max-height:80px;overflow:auto}
+#notifyFixBox{display:none;position:fixed;top:10%;left:5%;width:90%;background:#fff;border:3px solid #8b5a2b;border-radius:16px;padding:16px;z-index:100000;max-height:80%;overflow:auto}
+.editAmt{width:70px!important;display:inline-block!important;margin:2px!important;padding:6px!important}
+#outside{padding-bottom:100px!important}
+#outsideTabs{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:9px!important;padding:12px 6px 20px 6px!important}
+#outsideTabs button{width:100%!important;min-height:62px!important;font-size:10.5px!important;padding:8px 4px!important;background:#fff!important;border:2px solid #8b5a2b!important;color:#8b5a2b!important;border-radius:14px!important}
+#tabs{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:7px!important;padding:10px 6px!important;background:#fff!important;border:2px solid #d4a94b!important;border-radius:12px!important}
+#tabs button{width:100%!important;min-height:52px!important;font-size:8.5px!important;padding:6px 3px!important;background:#fff!important;border:1.5px solid #8b5a2b!important;border-radius:11px!important}
+#publicViewArea{padding-bottom:150px!important;margin-top:12px!important}
+#successToast{position:fixed;top:20%;left:10%;width:80%;background:#00c851;color:#fff;padding:20px;border-radius:16px;text-align:center;font-weight:bold;font-size:18px;z-index:100002;display:none}
+#editHomeBox{display:none;position:fixed;top:5%;left:3%;width:94%;background:#fff;border:3px solid #8b5a2b;border-radius:16px;padding:16px;z-index:100001;max-height:85%;overflow:auto}
+</style></head><body><div id="globalAlert"></div><div id="cp12Alert" class="flashRed"></div><div id="notifyFixBox" class="card"></div><div id="editHomeBox" class="card"></div><div id="successToast"></div><div class="hd"><div style="text-align:center"><img src="https://i.ibb.co/0yZ3bK6/logo-old.png" onerror="this.style.display='none'" style="width:110px;height:auto;margin-bottom:6px;display:none" id="oldLogoImg"><svg width="110" height="85" viewBox="0 0 120 95" style="margin-bottom:4px" id="oldLogoSvg"><g stroke="#d4a94b" stroke-width="3" stroke-linecap="round"><line x1="15" y1="22" x2="45" y2="8"/><line x1="15" y1="30" x2="45" y2="16"/><line x1="75" y1="8" x2="105" y2="22"/><line x1="75" y1="16" x2="105" y2="30"/><rect x="50" y="18" width="18" height="18" stroke-width="2.5" fill="none"/><line x1="59" y1="18" x2="59" y2="36" stroke-width="1.5"/><line x1="50" y1="27" x2="68" y2="27" stroke-width="1.5"/><line x1="25" y1="48" x2="25" y2="72" stroke-width="2.5"/><line x1="95" y1="48" x2="95" y2="72" stroke-width="2.5"/></g><text x="60" y="48" text-anchor="middle" fill="#ffecb3" font-size="5.5" font-weight="bold" font-family="Arial">UNIQUE HAVEN HOUSE</text><text x="60" y="53" text-anchor="middle" fill="#d4a94b" font-size="3.5" font-family="Arial">WE BUILD UR DREAM</text><circle cx="38" cy="66" r="5" fill="white" stroke="white" stroke-width="1"/><circle cx="38" cy="66" r="2" fill="#8b5a2b"/><circle cx="60" cy="66" r="5" fill="white"/><circle cx="82" cy="66" r="5" fill="white"/></svg></div><h1>UNIQUE HAVEN HOUSE</h1><div style="color:#ffecb3;font-size:12px;font-weight:bold;letter-spacing:2.5px;margin-top:4px">WE BUILD UR DREAM</div><div id="uInfo" style="color:#ffecb3;font-size:11px;margin-top:4px"></div><div id="cloudStatus" style="margin-top:6px;font-weight:bold;padding:6px 10px;border-radius:12px;background:#003300;color:#00ff88;border:2px solid #00c851;font-size:13px">☁️ Cloud SYNC ON</div></div><div id="outside"><div class="card" style="text-align:center"><h3>SELECT ACCESS</h3><button class="btn" onclick="goAdmin()">ADMIN</button><button class="btn" onclick="goWorker()">WORKER</button><button class="btn" onclick="goTransport()">TRANSPORT</button><hr><div class="card" style="border:2px solid #8b5a2b;background:#fff8e1;text-align:left"><h3 style="color:#8b5a2b;text-align:center">🔍 SEARCH ANY JOB</h3><input id="outsideSearchInput" placeholder="Enter Chassis No..." oninput="outsideSearch()" style="font-size:16px;font-weight:bold"><button class="btn" onclick="outsideSearch()">SEARCH BY CHASSIS</button></div><div id="outsideTabs"><button class="btn2" onclick="openPublicActive()">👀 ACTIVE JOBS</button><button class="btn2" onclick="openPublicTransport()">🚚 TRANSPORT JOBS</button><button class="btn2" onclick="openPublicRefurb()">🏠 REFURB HOMES</button><button class="btn2" onclick="openPublicInvoice()">📄 PUBLIC INVOICE</button><button class="btn2" onclick="openPublicChat()">💬 PUBLIC CHAT</button><button class="btn2" onclick="askNotify()">🔔 Enable Notifications</button><button class="btn2" onclick="showNotifyFix()">❗ Fix Notification</button><button class="btn2" onclick="openAbout()">ℹ️ ABOUT US</button></div></div><div id="publicViewArea"></div></div><div id="app" style="display:none"><div id="tabs"></div><div id="content"></div><button class="btn2" onclick="backHome()" style="margin-bottom:250px;width:100%">⬅️ Back to Home</button></div><div id="pageAbout" style="display:none" class="card"><h3>About Us</h3><div id="aboutView"></div><button class="btn2" onclick="backHome()">Back</button></div><div id="pagePublicInvoice" style="display:none" class="card"><h3>📄 PUBLIC INVOICE</h3><label>Select Existing Folder</label><select id="pubInvFolderSelect"></select><input id="pubInvChassis" placeholder="Chassis Folder Name *"><input id="pubInvCompany" placeholder="Company Name *"><input id="pubInvPerson" placeholder="Your Name *"><input id="pubInvAmt" type="number" step="0.01" placeholder="Total £ *"><input id="pubInvDesc" placeholder="Invoice Title *"><div style="display:flex;gap:6px;flex-wrap:wrap"><div style="flex:1"><label>📷 Camera</label><input type="file" id="pubInvCam" accept="image/*" capture="environment" multiple></div><div style="flex:1"><label>🖼️ Library</label><input type="file" id="pubInvLib" accept="image/*" multiple></div></div><div id="pubInvPrevBox" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px"></div><div id="pubOcrStatus" style="background:#fff8e1;padding:8px;border-radius:8px"></div><div id="pubOcrBreakdown" style="background:#fff8e1;padding:8px;border-radius:8px;margin-top:6px"></div><button class="btn" onclick="submitPublicInvoice()">+ SUBMIT INVOICE</button><hr><div class="card" style="border:2px solid #00c851;background:#e8f5e9"><h3 style="color:#00c851">👁️ MY INVOICES</h3><input id="myInvNameSearch" placeholder="Enter Your Name"><button class="btn-green" onclick="showMyPublicInvoices()">👁️ Show My Invoices</button><div id="myInvListArea"></div></div><button class="btn2" onclick="backHome()" style="margin-bottom:80px">Back to Home</button></div><script>
 <div id="successToast"></div>
 <script>var firebaseConfig={apiKey:"AIzaSyB3u3U09Nq5MZ5n2v5j9Z4Q7k8L1M2N3O4",authDomain:"unique-haven-house.firebaseapp.com",projectId:"unique-haven-house",storageBucket:"unique-haven-house.appspot.com",messagingSenderId:"123456789",appId:"1:123456789:web:abc123"};
 var db=null;try{if(typeof firebase!=='undefined'){firebase.initializeApp(firebaseConfig);db=firebase.firestore();}}catch(e){}
