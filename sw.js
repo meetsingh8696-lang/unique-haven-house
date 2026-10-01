@@ -1,10 +1,33 @@
-self.addEventListener('install',e=>{self.skipWaiting();});
-self.addEventListener('activate',e=>{self.clients.claim();});
-self.addEventListener('push',e=>{
-  let data=e.data?e.data.text():'🔔 New message/job';
-  e.waitUntil(self.registration.showNotification('UNIQUE HAVEN HOUSE',{body:data,vibrate:[200,100,200],tag:'unique-haven'}));
+importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+  apiKey: "AIzaSyC8pET9aGyiCLEQB0SlAyW0uxeeD_bN5Zc",
+  authDomain: "unique-haven-house.firebaseapp.com",
+  projectId: "unique-haven-house",
+  storageBucket: "unique-haven-house.firebasestorage.app",
+  messagingSenderId: "863147801991",
+  appId: "1:863147801991:web:71dad5c6b88bc0367ae722"
 });
-self.addEventListener('notificationclick',e=>{
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage((payload) => {
+  console.log('Background Push:', payload);
+  const title = payload.notification?.title || 'UNIQUE HAVEN HOUSE';
+  const options = {
+    body: payload.notification?.body || '🔔 New message/job received',
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    vibrate: [200, 100, 200],
+    tag: 'haven-push'
+  };
+  return self.registration.showNotification(title, options);
+});
+
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => self.clients.claim());
+self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(clients.openWindow('./'));
 });
