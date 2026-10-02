@@ -201,7 +201,7 @@ function delWorker(i){if(confirm('Delete worker?')){workersList.splice(i,1);loca
 function editReport(i){var r=reports[i];var nw=prompt('Edit Work:',r.work);if(nw===null)return;r.work=nw;var nd=prompt('Edit Date YYYY-MM-DD:',r.date);if(nd!==null)r.date=nd;localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();}
 function delReport(i){if(confirm('Delete report?')){reports.splice(i,1);localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();}}
 function refreshCompanySelect(){var s=document.getElementById('selCompany');if(!s)return;var o='<option value="General">General</option>';for(var i=0;i<customCompanyTabs.length;i++)o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';var ks=Object.keys(companyHomes);for(var j=0;j<ks.length;j++){if(!customCompanyTabs.includes(ks[j])&&ks[j]!=='General')o+='<option value="'+ks[j]+'">'+ks[j]+'</option>';}s.innerHTML=o;}
-window.addEventListener('load',function(){setTimeout(function()   {initPubInvUpload();startLiveSync();updateNotifStat();},800);};                                                              
+window.addEventListener('load',function(){setTimeout(function(){initPubInvUpload();startLiveSync();updateNotifStat();},800);});
 
 </script>
 </body></html>
