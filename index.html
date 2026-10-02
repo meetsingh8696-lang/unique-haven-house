@@ -213,7 +213,7 @@ if('serviceWorker' in navigator){var swCode="self.addEventListener('push',functi
 <button onclick="alert(document.getElementById('t').innerText)" style="padding:10px;margin-top:5px;background:black;color:white;">SHOW TOKEN</button>
 </div>
 <script>
-setTimeout(()=>{document.getElementById('t').innerText=localStorage.getItem('fcmToken')||'NO TOKEN - Enable first';},1500);
+setTimeout(()=>{let a=localStorage.getItem('fcm_token'),b=localStorage.getItem('fcmToken');document.getElementById('t').innerText=a||b||'NO TOKEN - Enable first';},1500);
 </script>
 
 </body></html>
