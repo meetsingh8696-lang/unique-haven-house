@@ -202,6 +202,38 @@ function editReport(i){var r=reports[i];var nw=prompt('Edit Work:',r.work);if(nw
 function delReport(i){if(confirm('Delete report?')){reports.splice(i,1);localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();}}
 function refreshCompanySelect(){var s=document.getElementById('selCompany');if(!s)return;var o='<option value="General">General</option>';for(var i=0;i<customCompanyTabs.length;i++)o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';var ks=Object.keys(companyHomes);for(var j=0;j<ks.length;j++){if(!customCompanyTabs.includes(ks[j])&&ks[j]!=='General')o+='<option value="'+ks[j]+'">'+ks[j]+'</option>';}s.innerHTML=o;}
 window.addEventListener('load',function(){setTimeout(function(){initPubInvUpload();startLiveSync();updateNotifStat();},800);});
-
+try{if('serviceWorker' in navigator){navigator.serviceWorker.register('/firebase-messaging-sw.js').then(function(r){console.log('SW OK');}).catch(function(e){console.log('SW fail '+e);});}}catch(e){}
+</script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging-compat.js"></script>
+<script>
+setTimeout(function(){
+ try{
+   if(typeof Notification==='undefined'){console.log('No Notification');return;}
+   if(!firebase.apps.length){
+     firebase.initializeApp({
+       apiKey:"AIzaSyC8pET9aGyiCLEQB0S1AyW0uxeeD_bN5Zc",
+       authDomain:"unique-haven-house.firebaseapp.com",
+       projectId:"unique-haven-house",
+       storageBucket:"unique-haven-house.firebasestorage.app",
+       messagingSenderId:"863147801991",
+       appId:"1:863147801991:web:71dad5c6b88bc0367ae722"
+     });
+   }
+   var messaging=firebase.messaging();
+   if(Notification.permission!=='granted'){
+     Notification.requestPermission().then(function(p){
+       if(p==='granted'){getTok();}
+     });
+   } else {getTok();}
+   function getTok(){
+     navigator.serviceWorker.ready.then(function(reg){
+       messaging.getToken({vapidKey:'BAfIxyUMOCz33GaNTuJgW7-dITtPhz-c-g0QJlLOIEylR-jvAV7IWbUwksuIPG6-gpjlLubvCtez2dDlT5IUNo8', serviceWorkerRegistration:reg}).then(function(t){
+         if(t){localStorage.setItem('fcm_token',t);console.log('TOKEN:',t);}
+       }).catch(function(e){console.log('token err',e.message);});
+     });
+   }
+ }catch(e){console.log('FCM err',e.message);}
+},4000);
 </script>
 </body></html>
