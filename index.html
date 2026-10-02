@@ -203,37 +203,37 @@ function delReport(i){if(confirm('Delete report?')){reports.splice(i,1);localSto
 function refreshCompanySelect(){var s=document.getElementById('selCompany');if(!s)return;var o='<option value="General">General</option>';for(var i=0;i<customCompanyTabs.length;i++)o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';var ks=Object.keys(companyHomes);for(var j=0;j<ks.length;j++){if(!customCompanyTabs.includes(ks[j])&&ks[j]!=='General')o+='<option value="'+ks[j]+'">'+ks[j]+'</option>';}s.innerHTML=o;}
 window.addEventListener('load',function(){setTimeout(function()   {initPubInvUpload();startLiveSync();updateNotifStat();},800);};                                                              
 </script>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/firebase-messaging-sw.js').then(r=>console.log('SW OK')).catch(e=>console.log('SW FAIL',e));
+}
+</script>
+<div id="tok" style="background:yellow;padding:10px;position:fixed;bottom:0;left:0;right:0;z-index:9999;">
+<b id="t">Token loading...</b> <button onclick="alert(localStorage.getItem('fcm_token')||'No token yet')">SHOW</button>
+</div>
 <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging-compat.js"></script>
 <script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/firebase-messaging-sw.js').then(()=>console.log('FCM SW OK')).catch(e=>console.error(e));
-  firebase.initializeApp({
-    apiKey: "AIzaSyC8pET9aGyiCLEQB0S1AyW0uxeeD_bN5Zc",
-    authDomain: "unique-haven-house.firebaseapp.com",
-    projectId: "unique-haven-house",
-    storageBucket: "unique-haven-house.firebasestorage.app",
-    messagingSenderId: "863147801991",
-    appId: "1:863147801991:web:71dad5c6b88bc0367ae722"
-  });
-  const messaging = firebase.messaging();
-  navigator.serviceWorker.ready.then(reg=>{
-    Notification.requestPermission().then(p=>{
-      if(p==='granted'){
-        messaging.getToken({vapidKey:'BAfIxyUMOCz33GaNTuJgW7-dITtPhz-c-g0QJlLOIEylR-jvAV7IWbUwksuIPG6-gpjlLubvCtez2dDlT5IUNo8', serviceWorkerRegistration:reg}).then(t=>{
-          if(t){localStorage.setItem('fcm_token',t);document.getElementById('t').innerText=t; console.log('TOKEN:',t);}
-        }).catch(e=>{document.getElementById('t').innerText='ERROR: '+e.message; console.log(e);});
-      } else {document.getElementById('t').innerText='Permission denied - Enable in Settings';}
+setTimeout(()=>{
+ try{
+  if(!firebase.apps.length){
+    firebase.initializeApp({
+      apiKey:"AIzaSyC8pET9aGyiCLEQB0S1AyW0uxeeD_bN5Zc",
+      authDomain:"unique-haven-house.firebaseapp.com",
+      projectId:"unique-haven-house",
+      messagingSenderId:"863147801991",
+      appId:"1:863147801991:web:71dad5c6b88bc0367ae722"
     });
+  }
+  const msg=firebase.messaging();
+  Notification.requestPermission().then(p=>{
+    if(p==='granted'){
+      msg.getToken({vapidKey:'BAfIxyUMOCz33GaNTuJgW7-dITtPhz-c-g0QJlLOIEylR-jvAV7IWbUwksuIPG6-gpjlLubvCtez2dDlT5IUNo8'}).then(t=>{
+        if(t){localStorage.setItem('fcm_token',t);document.getElementById('t').innerText=t.substring(0,20)+'...';}
+      });
+    } else {document.getElementById('t').innerText='Permission denied';}
   });
-}
+ }catch(e){document.getElementById('t').innerText='Error: '+e.message; console.log(e);}
+},3000);
 </script>
-<div id="tok" style="background:yellow;padding:15px;border:3px solid black;position:fixed;bottom:0;left:0;right:0;z-index:99999;word-break:break-all;">
-<b>YOUR TOKEN:</b><br><span id="t">Loading... please wait 3 sec</span><br>
-<button onclick="alert(document.getElementById('t').innerText)" style="padding:10px;margin-top:5px;background:black;color:white;">SHOW TOKEN</button>
-</div>
-<script>
-setTimeout(()=>{let a=localStorage.getItem('fcm_token');if(a)document.getElementById('t').innerText=a;},2500);
-</script>
-
 </body></html>
