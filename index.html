@@ -73,7 +73,53 @@ function saveAbout(){var tx=document.getElementById('aboutText').value;aboutData
 function getCompOpts(){var o='';for(var i=0;i<customCompanyTabs.length;i++){o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';}if(!o)o='<option value="General">General</option>';return o;}
 function createTab(){var n=document.getElementById('newCompanyTab').value.trim();if(!n)return;if(!customCompanyTabs.includes(n)){customCompanyTabs.push(n);companyHomes[n]=[];localStorage.setItem('uh_customTabs',JSON.stringify(customCompanyTabs));localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));showToast('Tab Created');renderContent();}}
 function addHome(){var comp=document.getElementById('selCompany').value||'General';var o={chassis:document.getElementById('hChassis').value,location:document.getElementById('hLocation').value,addr:document.getElementById('hAddr').value,tenant:document.getElementById('hTenant').value,postcode:document.getElementById('hPost').value,company:document.getElementById('hCompany').value||comp,phone:document.getElementById('hPhone')&&document.getElementById('hPhone').value||'',photos:homePhotos.slice(),videos:homeVideos.slice()};if(!o.chassis){alert('Chassis');return;}if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(o);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));homePhotos=[];homeVideos=[];var b=document.getElementById('homePrevBox');if(b)b.innerHTML='Preview';showToast('Home Added');renderHomes();}
-function renderHomes(){var q=(document.getElementById('homeSearch')&&document.getElementById('homeSearch').value||'').toLowerCase();var l=document.getElementById('homesList');if(!l)return;var h='';var keys=Object.keys(companyHomes);for(var k=0;k<keys.length;k++){var comp=keys[k];var arr=companyHomes[comp]||[];for(var i=0;i<arr.length;i++){var ho=arr[i];if(q&&!(ho.chassis||'').toLowerCase().includes(q))continue;var m='';if(ho.photos){for(var p=0;p<ho.photos.length;p++)m+='<img src="'+ho.photos[p]+'" style="width:80px;height:80px;border-radius:10px;margin:3px" onclick="viewPic(this.src)">';}if(ho.videos){for(var v=0;v<ho.videos.length;v++)m+='<video src="'+ho.videos[v]+'" style="width:80px;height:70px;border-radius:10px;margin:3px" controls></video>';}h+='<div class="card"><b>'+ho.chassis+'</b> '+(ho.location||'')+'<br>'+(ho.addr||'')+'<br>Company:'+(ho.company||comp)+'<br>Phone:'+(ho.phone||'')+'<br><div style="display:flex;flex-wrap:wrap">'+m+'</div><br><button class="btn2" onclick="editHome(\''+comp+'\','+i+')">Edit</button> <button class="btn2" style="color:red" onclick="delHome(\''+comp+'\','+i+')">Delete</button></div>';}}l.innerHTML=h||'<div class="card">No homes</div>';}
+function renderHomes(){
+  var q=(document.getElementById('homeSearch')&&document.getElementById('homeSearch').value||'').toLowerCase();
+  var l=document.getElementById('homesList');if(!l)return;
+  var h='';
+  var keys=Object.keys(companyHomes||{});
+
+  // Also add companies that have 0 homes yet
+  try{
+    var comps=JSON.parse(localStorage.getItem('companies')||'[]');
+    for(var c=0;c<comps.length;c++){
+      var cname = typeof comps[c]==='string'? comps[c] : (comps[c].name||'');
+      if(cname && keys.indexOf(cname)===-1) keys.push(cname);
+    }
+  }catch(e){}
+
+  keys.sort();
+  for(var k=0;k<keys.length;k++){
+    var comp=keys[k];
+    var arr=companyHomes[comp]||[];
+    // filter by search
+    var filtered=[];
+    for(var i=0;i<arr.length;i++){
+      var ho=arr[i];
+      if(q &&!(ho.chassis||'').toLowerCase().includes(q)) continue;
+      filtered.push({ho:ho, idx:i});
+    }
+    if(q && filtered.length===0) continue;
+
+    h+='<div style="margin:14px 0; border:2px solid #8B5A2B; border-radius:14px; overflow:hidden;">';
+    h+='<div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'" style="background:#8B5A2B; color:white; padding:12px 16px; font-weight:800; display:flex; justify-content:space-between; cursor:pointer;"><span>🏢 '+comp.toUpperCase()+'</span><span style="background:white; color:#8B5A2B; border-radius:20px; padding:2px 10px; font-size:12px;">'+filtered.length+' homes</span></div>';
+    h+='<div style="display:block; background:#fff;">';
+    if(filtered.length===0){
+      h+='<div style="padding:14px; color:#888;">No homes yet in '+comp+'. Add home with Company = '+comp+'</div>';
+    }else{
+      for(var j=0;j<filtered.length;j++){
+        var ho=filtered[j].ho;
+        var m='';
+        if(ho.photos){for(var p=0;p<ho.photos.length;p++)m+='<img src="'+ho.photos[p]+'" style="width:80px;height:80px;border-radius:10px;margin:3px" onclick="viewPic(this.src)">';}
+        if(ho.videos){for(var v=0;v<ho.videos.length;v++)m+='<video src="'+ho.videos[v]+'" style="width:80px;height:70px;border-radius:10px;margin:3px" controls></video>';}
+        h+='<div class="card" style="border-bottom:1px solid #eee; margin:0; border-radius:0;"><b>'+ (ho.chassis||'') +'</b> '+(ho.customer||'')+'<br>Company:'+(ho.company||comp)+'<br>Phone:'+(ho.phone||'')+'<br>'+m+'<br><div style="margin-top:8px;"><button onclick="editHome(\''+comp+'\','+filtered[j].idx+')" style="padding:6px 12px; border-radius:20px; border:1px solid #8B5A2B; background:white; margin-right:6px;">Edit</button><button onclick="deleteHome(\''+comp+'\','+filtered[j].idx+')" style="padding:6px 12px; border-radius:20px; border:1px solid #8B5A2B; background:white; color:red;">Delete</button></div></div>';
+      }
+    }
+    h+='</div></div>';
+  }
+  if(keys.length===0){h='<div style="padding:20px; text-align:center; color:#888;">No companies yet. Create company first.</div>';}
+  l.innerHTML=h;
+}
 function delHome(c,i){if(confirm('Delete?')){companyHomes[c].splice(i,1);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderHomes();}}
 function editHome(c,i){var h=companyHomes[c][i];var b=document.getElementById('editHomeBox');b.style.display='block';var mh='';if(h.photos){for(var p=0;p<h.photos.length;p++){mh+='<div style="display:inline-block;position:relative"><img src="'+h.photos[p]+'" style="width:70px;height:70px;border-radius:10px;margin:3px"><button onclick="delHomePhoto(\''+c+'\','+i+','+p+')" style="position:absolute;top:0;right:0;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px">x</button></div>';}}if(h.videos){for(var v=0;v<h.videos.length;v++){mh+='<div style="display:inline-block;position:relative"><video src="'+h.videos[v]+'" style="width:70px;height:70px;border-radius:10px;margin:3px" controls></video><button onclick="delHomeVideo(\''+c+'\','+i+','+v+')" style="position:absolute;top:0;right:0;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px">x</button></div>';}}b.innerHTML='<h3>Edit Home - Full Editable</h3><input id="ehChassis" value="'+h.chassis+'"><input id="ehLocation" value="'+(h.location||'')+'"><input id="ehAddr" value="'+(h.addr||'')+'"><input id="ehTenant" value="'+(h.tenant||'')+'"><input id="ehPhone" value="'+(h.phone||'')+'"><input id="ehPost" value="'+(h.postcode||'')+'"><input id="ehCompany" value="'+(h.company||'')+'"><div style="background:#fff8e1;padding:6px;border-radius:10px"><b>Current Media:</b><br>'+mh+'</div><div style="display:flex;gap:6px;margin-top:8px"><div style="flex:1"><label>Add Photos</label><input type="file" id="ehCam" accept="image/*" multiple></div><div style="flex:1"><label>Add Video</label><input type="file" id="ehVid" accept="video/*" multiple></div></div><button class="btn" onclick="saveEditHome(\''+c+'\','+i+')">Save All Changes</button> <button class="btn2" onclick="document.getElementById(\'editHomeBox\').style.display=\'none\'">Close</button>';setTimeout(function(){var cam=document.getElementById('ehCam');var vid=document.getElementById('ehVid');if(cam)cam.addEventListener('change',function(e){for(var f=0;f<e.target.files.length;f++){(function(file){var r=new FileReader();r.onload=function(ev){h.photos.push(ev.target.result);editHome(c,i);};r.readAsDataURL(file);})(e.target.files[f]);}});if(vid)vid.addEventListener('change',function(e){if(!h.videos)h.videos=[];for(var f=0;f<e.target.files.length;f++){(function(file){var r=new FileReader();r.onload=function(ev){h.videos.push(ev.target.result);editHome(c,i);};r.readAsDataURL(file);})(e.target.files[f]);}});},100);}
 function delHomePhoto(c,i,p){if(confirm('Delete photo?')){companyHomes[c][i].photos.splice(p,1);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));editHome(c,i);renderHomes();}}
