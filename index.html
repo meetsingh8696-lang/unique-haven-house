@@ -202,38 +202,6 @@ function editReport(i){var r=reports[i];var nw=prompt('Edit Work:',r.work);if(nw
 function delReport(i){if(confirm('Delete report?')){reports.splice(i,1);localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();}}
 function refreshCompanySelect(){var s=document.getElementById('selCompany');if(!s)return;var o='<option value="General">General</option>';for(var i=0;i<customCompanyTabs.length;i++)o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';var ks=Object.keys(companyHomes);for(var j=0;j<ks.length;j++){if(!customCompanyTabs.includes(ks[j])&&ks[j]!=='General')o+='<option value="'+ks[j]+'">'+ks[j]+'</option>';}s.innerHTML=o;}
 window.addEventListener('load',function(){setTimeout(function()   {initPubInvUpload();startLiveSync();updateNotifStat();},800);};                                                              
-</script>
-<script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/firebase-messaging-sw.js').then(r=>console.log('SW OK')).catch(e=>console.log('SW FAIL',e));
-}
-</script>
-<div id="tok" style="background:yellow;padding:10px;position:fixed;bottom:0;left:0;right:0;z-index:9999;">
-<b id="t">Token loading...</b> <button onclick="alert(localStorage.getItem('fcm_token')||'No token yet')">SHOW</button>
-</div>
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging-compat.js"></script>
-<script>
-setTimeout(()=>{
- try{
-  if(!firebase.apps.length){
-    firebase.initializeApp({
-      apiKey:"AIzaSyC8pET9aGyiCLEQB0S1AyW0uxeeD_bN5Zc",
-      authDomain:"unique-haven-house.firebaseapp.com",
-      projectId:"unique-haven-house",
-      messagingSenderId:"863147801991",
-      appId:"1:863147801991:web:71dad5c6b88bc0367ae722"
-    });
-  }
-  const msg=firebase.messaging();
-  Notification.requestPermission().then(p=>{
-    if(p==='granted'){
-      msg.getToken({vapidKey:'BAfIxyUMOCz33GaNTuJgW7-dITtPhz-c-g0QJlLOIEylR-jvAV7IWbUwksuIPG6-gpjlLubvCtez2dDlT5IUNo8'}).then(t=>{
-        if(t){localStorage.setItem('fcm_token',t);document.getElementById('t').innerText=t.substring(0,20)+'...';}
-      });
-    } else {document.getElementById('t').innerText='Permission denied';}
-  });
- }catch(e){document.getElementById('t').innerText='Error: '+e.message; console.log(e);}
-},3000);
+
 </script>
 </body></html>
