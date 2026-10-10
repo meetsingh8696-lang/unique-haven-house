@@ -30,13 +30,13 @@ var db=null;try{if(typeof firebase!=='undefined'){db=firebase.firestore();}}catc
 var reports=JSON.parse(localStorage.getItem('uh_reports')||'[]');var complaints=JSON.parse(localStorage.getItem('uh_comp')||'[]');var transJobs=JSON.parse(localStorage.getItem('uh_tjobs')||'[]');var completeJobs=JSON.parse(localStorage.getItem('uh_complete')||'[]');var chatMsgs=JSON.parse(localStorage.getItem('uh_chat')||'[]');var workersList=JSON.parse(localStorage.getItem('uh_workers')||'["Ali","Hassan","John","Manpreet"]');var cp12List=JSON.parse(localStorage.getItem('uh_cp12')||'[]');var refurbs=JSON.parse(localStorage.getItem('uh_refurbs')||'[]');var companyHomes=JSON.parse(localStorage.getItem('uh_companyHomes')||'{}');var customCompanyTabs=JSON.parse(localStorage.getItem('uh_customTabs')||'[]');var aboutData=JSON.parse(localStorage.getItem('uh_about')||'{"text":"UNIQUE HAVEN HOUSE WE BUILD UR DREAM","photos":[],"videos":[]}');var pw=JSON.parse(localStorage.getItem('uh_pw')||'{"admin":"admin123","worker":"worker123","transport":"trans123","invoice":"public123"}');var role=localStorage.getItem('uh_role')||'';var curTab=localStorage.getItem('uh_curTab')||'dash';var invoices={};var invTmp=[];var homePhotos=[];var homeVideos=[];var compPhotos=[];var transPhotos=[];var pubInvTmp=[];var aboutTmpPhotos=[];var aboutTmpVideos=[];
 var materialStock=JSON.parse(localStorage.getItem('uh_materialStock')||'[]');var materialUsage=JSON.parse(localStorage.getItem('uh_materialUsage')||'[]');
 function saveMaterialStock(){localStorage.setItem('uh_materialStock',JSON.stringify(materialStock));localStorage.setItem('uh_materialUsage',JSON.stringify(materialUsage));if(db)try{db.collection('materialStock_backup').doc('all').set({stock:materialStock,usage:materialUsage,timestamp:Date.now()});db.collection('materialStock').doc('live').set({stock:materialStock,usage:materialUsage,timestamp:Date.now()});}catch(e){}}
-function addMaterial(){var name=(document.getElementById('matName')&&document.getElementById('matName').value||'').trim();var qty=parseInt(document.getElementById('matQty')&&document.getElementById('matQty').value||'0');var unit=(document.getElementById('matUnit')&&document.getElementById('matUnit').value||'pcs').trim();var minQty=parseInt(document.getElementById('matMinQty')&&document.getElementById('matMinQty').value||'5');if(!name){alert('Material name needed');return;}var obj={name:name,qty:qty,unit:unit,minQty:minQty,date:new Date().toLocaleDateString(),timestamp:Date.now()};materialStock.unshift(obj);saveMaterialStock();if(db)try{db.collection('materialStockItems').add(obj);}catch(e){}showToast('Material Added');renderMaterialStock();}
+function addMaterial(){var name=(document.getElementById('matName')&&document.getElementById('matName').value||'').trim();var qty=parseInt(document.getElementById('matQty')&&document.getElementById('matQty').value||'0');var unit=(document.getElementById('matUnit')&&document.getElementById('matUnit').value||'pcs').trim();var minQty=parseInt(document.getElementById('matMinQty')&&document.getElementById('matMinQty').value||'5');if(!name){alert('Material name needed');return;}var obj={name:name,qty:qty,unit:unit,minQty:minQty,date:new Date().toLocaleDateString(),timestamp:Date.now()};materialStock.unshift(obj);saveMaterialStock();if(db)try{db.collection('materialStockItems').add(obj);db.collection('materialStock_live').add(obj);}catch(e){}showToast('Material Added');renderMaterialStock();}
 function editMaterial(i){var m=materialStock[i];var newName=prompt('Edit Material Name:',m.name);if(newName===null)return;var newQty=prompt('Edit Qty:',m.qty);if(newQty===null)return;var newMin=prompt('Edit Min Qty:',m.minQty);if(newMin!==null)m.minQty=parseInt(newMin)||5;m.name=newName;m.qty=parseInt(newQty)||0;saveMaterialStock();renderMaterialStock();showToast('Material Edited');}
 function delMaterial(i){if(confirm('Delete material '+materialStock[i].name+'?')){materialStock.splice(i,1);saveMaterialStock();renderMaterialStock();showToast('Deleted');}}
 function loadInvoicesSafe(){try{var d=JSON.parse(localStorage.getItem('uh_invoices')||'{}');if(Array.isArray(d)){var nd={};for(var i=0;i<d.length;i++){var c=d[i].chassis||'General';if(!nd[c])nd[c]=[];nd[c].push(d[i]);}return nd;}return d;}catch(e){return {};}}
 invoices=loadInvoicesSafe();
 function saveInvoicesSafe(){try{localStorage.setItem('uh_invoices',JSON.stringify(invoices));if(db)db.collection('invoices_backup').doc('all').set({data:invoices,timestamp:Date.now()});}catch(e){}}
-function cloudAdd(c,o){if(!db)return;try{db.collection(c).add(Object.assign({},o,{timestamp:Date.now()}));}catch(e){}}
+function cloudAdd(c,o){if(!db)return;try{var withTime=Object.assign({},o,{timestamp:Date.now()});db.collection(c).add(withTime);if(c==='reports'||c==='complaints'||c==='transJobs'||c==='refurbs'||c==='cp12List'||c==='completeJobs'||c==='materialUsage'||c==='materialStockItems'||c==='invoices'||c==='chatMsgs'){db.collection(c+'_live').doc('all').set({data:withTime,updated:Date.now()},{merge:true});}}catch(e){}}
 function cloudDelete(c,f,v){if(!db)return;try{db.collection(c).where(f,'==',v).get().then(function(s){s.forEach(function(d){d.ref.delete();});});}catch(e){}}
 function viewPic(s){var m=document.getElementById("viewModal");if(!m){var d=document.createElement("div");d.id="viewModal";d.style="display:flex;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999999;align-items:center;justify-content:center";d.onclick=function(){this.style.display="none"};d.innerHTML='<img id="viewImg" style="max-width:95%;max-height:95%;border-radius:12px">';document.body.appendChild(d);m=d;}var im=document.getElementById("viewImg");if(im)im.src=s;m.style.display="flex";}
 function showToast(m){var t=document.getElementById('successToast');if(!t)return;t.innerText=m;t.style.display='block';setTimeout(function(){t.style.display='none';},2500);}
@@ -59,54 +59,50 @@ function initTabs(){var d=document.getElementById('tabs');var h='';if(role==='ad
 function setTab(t){curTab=t;localStorage.setItem('uh_curTab',t);renderContent();}
 function startLiveSync(){if(!db)return;try{
 db.collection('chatMsgs').orderBy('timestamp','asc').onSnapshot(function(snap){
-var arr=[];var lastLen=chatMsgs.length;
-snap.forEach(function(doc){var d=doc.data();arr.push(d);});
-if(arr.length>lastLen&&lastLen>0){
-var curRaw=localStorage.getItem('uh_curW')||localStorage.getItem('uh_curT')||(role==='admin'?'Admin':'');
-var curN=curRaw.toLowerCase().trim();
-var newMsg=arr[arr.length-1];
-if(newMsg){
-var from=(newMsg.name||'').toLowerCase().trim();
-var toRaw=(newMsg.to||'').toLowerCase().trim();
-var isForMe=false;
-if(toRaw===''||toRaw==='all')isForMe=true;
-else{var parts=toRaw.split(',').map(function(x){return x.trim().toLowerCase();});if(curN==='admin'){if(from==='admin'||parts.includes('admin'))isForMe=true;}else{if(parts.includes(curN))isForMe=true;}}
-if(isForMe&&from!==curN){showNotif('New Chat from '+newMsg.name, (newMsg.msg||'media').substring(0,80));}
-}}
-if(arr.length>0){chatMsgs=arr;localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();}
-document.getElementById('cloudStatus').innerHTML='☁️ Live Connected - Notif '+(localStorage.getItem('uh_notif')||'off');
+var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
+if(arr.length!==chatMsgs.length){chatMsgs=arr;localStorage.setItem('uh_chat',JSON.stringify(chatMsgs));renderChatList();}
+if(arr.length>0){var last=arr[arr.length-1];var curRaw=localStorage.getItem('uh_curW')||localStorage.getItem('uh_curT')||'Admin';var curN=curRaw.toLowerCase().trim();var from=(last.name||'').toLowerCase().trim();if(from!==curN){var toRaw=(last.to||'').toLowerCase().trim();var isForMe=toRaw===''||toRaw==='all'||toRaw.split(',').map(function(x){return x.trim().toLowerCase();}).indexOf(curN)!==-1||curN==='admin';if(isForMe){showNotif('New Chat '+last.name,(last.msg||'media').substring(0,60));}}}
+document.getElementById('cloudStatus').innerHTML='☁️ Live Connected ALL - '+(localStorage.getItem('uh_notif')||'off');
 });
 db.collection('complaints').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){complaints=arr;localStorage.setItem('uh_comp',JSON.stringify(complaints));renderContent();if(role==='admin')showNotif('Active Jobs Updated','New job list');}
+if(JSON.stringify(arr)!==JSON.stringify(complaints)){complaints=arr;localStorage.setItem('uh_comp',JSON.stringify(complaints));renderContent();showNotif('Active Jobs Live',arr.length+' jobs');}
 });
 db.collection('transJobs').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){transJobs=arr;localStorage.setItem('uh_tjobs',JSON.stringify(transJobs));renderContent();if(role==='admin')showNotif('Transport Updated','Transport list');}
+if(JSON.stringify(arr)!==JSON.stringify(transJobs)){transJobs=arr;localStorage.setItem('uh_tjobs',JSON.stringify(transJobs));renderContent();showNotif('Transport Live',arr.length+' jobs');}
 });
 db.collection('reports').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){reports=arr;localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();}
+if(arr.length>0&&JSON.stringify(arr)!==JSON.stringify(reports)){reports=arr;localStorage.setItem('uh_reports',JSON.stringify(reports));renderContent();showNotif('Work Report Live',arr.length+' reports');}
 });
 db.collection('refurbs').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){refurbs=arr;localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
+if(arr.length>0&&JSON.stringify(arr)!==JSON.stringify(refurbs)){refurbs=arr;localStorage.setItem('uh_refurbs',JSON.stringify(refurbs));renderContent();}
 });
 db.collection('cp12List').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){cp12List=arr;localStorage.setItem('uh_cp12',JSON.stringify(cp12List));renderContent();}
+if(arr.length>0&&JSON.stringify(arr)!==JSON.stringify(cp12List)){cp12List=arr;localStorage.setItem('uh_cp12',JSON.stringify(cp12List));renderContent();}
 });
 db.collection('completeJobs').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){completeJobs=arr;localStorage.setItem('uh_complete',JSON.stringify(completeJobs));renderContent();}
+if(arr.length>0&&JSON.stringify(arr)!==JSON.stringify(completeJobs)){completeJobs=arr;localStorage.setItem('uh_complete',JSON.stringify(completeJobs));renderContent();}
 });
 db.collection('materialStockItems').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
-if(arr.length>0){materialStock=arr;localStorage.setItem('uh_materialStock',JSON.stringify(materialStock));renderContent();}
+if(arr.length>0){materialStock=arr;localStorage.setItem('uh_materialStock',JSON.stringify(materialStock));renderContent();showNotif('Material Stock Live',arr.length+' items');}
 });
 db.collection('materialUsage').orderBy('timestamp','desc').onSnapshot(function(snap){
 var arr=[];snap.forEach(function(doc){arr.push(doc.data());});
 if(arr.length>0){materialUsage=arr;localStorage.setItem('uh_materialUsage',JSON.stringify(materialUsage));renderContent();}
+});
+db.collection('invoices').orderBy('timestamp','desc').onSnapshot(function(snap){
+var all={};snap.forEach(function(doc){var d=doc.data();var ch=d.chassis||'General';if(!all[ch])all[ch]=[];all[ch].push(d);});
+if(Object.keys(all).length>0){invoices=all;saveInvoicesSafe();renderContent();showNotif('Invoices Live','updated');}
+});
+db.collection('companyHomes').onSnapshot(function(snap){
+var allH={};snap.forEach(function(doc){var d=doc.data();if(d.homes){allH[doc.id]=d.homes;}else if(doc.id){if(!allH[doc.id])allH[doc.id]=[];allH[doc.id].push(d);}});
+if(Object.keys(allH).length>0){companyHomes=allH;localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));renderContent();}
 });
 }catch(e){}}
 function checkPublicInvoicePw(){var v=document.getElementById('publicInvoicePwInput').value;if(v==='public123'||v===pw.admin||v===pw.invoice){document.getElementById('publicInvoicePwBox').style.display='none';document.getElementById('pagePublicInvoiceContent').style.display='block';refreshPubInvFolders();}else alert('Wrong use public123');}
@@ -125,7 +121,7 @@ function openAbout(){document.getElementById('outside').style.display='none';doc
 function renderAbout(){var v=document.getElementById('aboutView');if(!v)return;var tx=(aboutData.text||'').replace(/\n/g,'<br>');var m='';if(aboutData.photos){for(var i=0;i<aboutData.photos.length;i++)m+='<img src="'+aboutData.photos[i]+'" style="width:100%;max-width:400px;border-radius:16px;margin:6px" onclick="viewPic(this.src)">';}if(aboutData.videos){for(var i=0;i<aboutData.videos.length;i++)m+='<video src="'+aboutData.videos[i]+'" style="width:100%;max-width:400px;border-radius:16px;margin:6px" controls></video>';}v.innerHTML='<div style="white-space:pre-wrap">'+tx+'</div><div style="display:flex;flex-direction:column;align-items:center">'+m+'</div>';}
 function assignW(idx){var sel=document.getElementById('assign_'+idx);var w=sel?sel.value.trim():'';if(!w){alert('Type any worker name');return;}complaints[idx].assignedTo=w;localStorage.setItem('uh_comp',JSON.stringify(complaints));cloudAdd('complaints',complaints[idx]);showNotif('Job Assigned','Assigned to '+w+' Chassis '+complaints[idx].chassis);showToast('Assigned to '+w);renderActive();}
 function compDone(idx){var c=complaints[idx];c.completed=true;c.completedDate=new Date().toLocaleDateString();completeJobs.unshift(c);complaints.splice(idx,1);localStorage.setItem('uh_comp',JSON.stringify(complaints));localStorage.setItem('uh_complete',JSON.stringify(completeJobs));if(db){db.collection('completeJobs').add(Object.assign({},c,{timestamp:Date.now()}));}showNotif('Job Completed',c.chassis+' done');showToast('Completed');renderActive();}
-function workerCompDone(idx){var c=complaints[idx];c.completed=true;c.completedDate=new Date().toLocaleDateString();completeJobs.unshift(c);complaints.splice(idx,1);localStorage.setItem('uh_comp',JSON.stringify(complaints));localStorage.setItem('uh_complete',JSON.stringify(completeJobs));if(db){db.collection('completeJobs').add(Object.assign({},c,{timestamp:Date.now()}));db.collection('complaints').doc();}showToast('Done');renderMy();}
+function workerCompDone(idx){var c=complaints[idx];c.completed=true;c.completedDate=new Date().toLocaleDateString();completeJobs.unshift(c);complaints.splice(idx,1);localStorage.setItem('uh_comp',JSON.stringify(complaints));localStorage.setItem('uh_complete',JSON.stringify(completeJobs));if(db){db.collection('completeJobs').add(Object.assign({},c,{timestamp:Date.now()}));}showToast('Done');renderMy();}
 function renderChatList(){
 var roleNow=localStorage.getItem('uh_role')||'';
 var curRaw=''; if(roleNow==='admin'){curRaw='Admin';}else{curRaw=localStorage.getItem('uh_curW')||localStorage.getItem('uh_curT')||'Admin';}
@@ -190,7 +186,7 @@ function clearAboutMedia(){if(confirm('Clear all?')){aboutData.photos=[];aboutDa
 function saveAbout(){var tx=document.getElementById('aboutText').value;aboutData.text=tx;if(!aboutData.photos)aboutData.photos=[];if(!aboutData.videos)aboutData.videos=[];for(var i=0;i<aboutTmpPhotos.length;i++)aboutData.photos.push(aboutTmpPhotos[i]);for(var j=0;j<aboutTmpVideos.length;j++)aboutData.videos.push(aboutTmpVideos[j]);aboutTmpPhotos=[];aboutTmpVideos=[];localStorage.setItem('uh_about',JSON.stringify(aboutData));showToast('About Saved');renderAbout();}
 function getCompOpts(){var o='';for(var i=0;i<customCompanyTabs.length;i++){o+='<option value="'+customCompanyTabs[i]+'">'+customCompanyTabs[i]+'</option>';}if(!o)o='<option value="General">General</option>';return o;}
 function createTab(){var n=document.getElementById('newCompanyTab').value.trim();if(!n)return;if(!customCompanyTabs.includes(n)){customCompanyTabs.push(n);companyHomes[n]=[];localStorage.setItem('uh_customTabs',JSON.stringify(customCompanyTabs));localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));showToast('Tab Created');renderContent();}}
-function addHome(){var comp=document.getElementById('selCompany').value||'General';var o={chassis:document.getElementById('hChassis').value,location:document.getElementById('hLocation').value,addr:document.getElementById('hAddr').value,tenant:document.getElementById('hTenant').value,postcode:document.getElementById('hPost').value,company:document.getElementById('hCompany').value||comp,phone:document.getElementById('hPhone')&&document.getElementById('hPhone').value||'',photos:homePhotos.slice(),videos:homeVideos.slice()};if(!o.chassis){alert('Chassis');return;}if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(o);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));homePhotos=[];homeVideos=[];var b=document.getElementById('homePrevBox');if(b)b.innerHTML='Preview';showToast('Home Added');renderHomes();}
+function addHome(){var comp=document.getElementById('selCompany').value||'General';var o={chassis:document.getElementById('hChassis').value,location:document.getElementById('hLocation').value,addr:document.getElementById('hAddr').value,tenant:document.getElementById('hTenant').value,postcode:document.getElementById('hPost').value,company:document.getElementById('hCompany').value||comp,phone:document.getElementById('hPhone')&&document.getElementById('hPhone').value||'',photos:homePhotos.slice(),videos:homeVideos.slice(),timestamp:Date.now()};if(!o.chassis){alert('Chassis');return;}if(!companyHomes[comp])companyHomes[comp]=[];companyHomes[comp].unshift(o);localStorage.setItem('uh_companyHomes',JSON.stringify(companyHomes));if(db)try{db.collection('companyHomes').doc(comp).set({homes:companyHomes[comp],timestamp:Date.now()});db.collection('companyHomesItems').add(Object.assign({},o,{company:comp}));}catch(e){}homePhotos=[];homeVideos=[];var b=document.getElementById('homePrevBox');if(b)b.innerHTML='Preview';showToast('Home Added');renderHomes();}
 function renderHomes(){
   var q=(document.getElementById('homeSearch')&&document.getElementById('homeSearch').value||'').toLowerCase();
   var l=document.getElementById('homesList');if(!l)return;
